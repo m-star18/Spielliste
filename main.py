@@ -15,11 +15,21 @@ SEARCH_NUMBER = 9999
 
 MAX_IMAGE_WIDTH_SIZE = 1000
 MAX_IMAGE_HEIGHT_SIZE = 1000
+MIN_IMAGE_WIDTH_SIZE = 250
+MIN_IMAGE_HEIGHT_SIZE = 250
 
 
-def image_resize(image, game_image_data):
-    image_size = image.resize((image.width // 2, image.height // 2))
-    image_size.save(game_image_data)
+def image_resize(image, game_list_data, number):
+
+    if image.width >= MAX_IMAGE_WIDTH_SIZE or image.height >= MAX_IMAGE_HEIGHT_SIZE:
+        image_size = image.resize((image.width // 2, image.height // 2))
+        image_size.save(game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
+        image_resize(image, game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
+
+    elif image.width <= MIN_IMAGE_WIDTH_SIZE or image.height <= MIN_IMAGE_HEIGHT_SIZE:
+        image_size = image.resize((image.width * 2, image.height * 2))
+        image_size.save(game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
+        image_resize(image, game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
 
 
 def open_file():
@@ -85,9 +95,7 @@ def start_menu(sum_data_number, game_list_data, data_number, input_text, values_
 
 def details_menu(game_list_data, number):
     image = Image.open(game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
-
-    if image.width >= MAX_IMAGE_WIDTH_SIZE or image.height >= MAX_IMAGE_HEIGHT_SIZE:
-        image_resize(image, game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
+    image_resize(image, game_list_data, number)
 
     headings_details = ['ゲーム名', '会社名', '登場年月', '実行']
     layout_details = [[sg.Text(h, size=(20, 1), font=FONT_SIZE) for h in headings_details]]
