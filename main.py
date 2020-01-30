@@ -27,8 +27,7 @@ def main(game_list_data=None, sum_number_data=0, event_data='', number_data=0, i
         if event is None:
             exit()
 
-        event_data = event_check(event, values, values_data, game_list_data, number_data, event_data, sum_number_data,
-                                 window)
+        event_data = event_check(event, values, values_data, game_list_data, number_data, event_data, sum_number_data, window)
 
 
 if __name__ == "__main__":
