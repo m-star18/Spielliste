@@ -41,12 +41,9 @@ def main_menu(sum_number_data, game_list_data, number_data, input_text, values_d
 
     headings = [
         [sg.Text('ゲーム名', size=(20, 1), font=FONT_SIZE),
-         sg.ButtonMenu(button_text='ジャンル', menu_def=['', genre_data], size=(14, 1), font=FONT_SIZE,
-                       key=GENRE_NAME_DATA_NUMBER),
-         sg.ButtonMenu(button_text='発売年', menu_def=['', date_birth_data], size=(14, 1), font=FONT_SIZE,
-                       key=DATE_BIRTH_DATA_NUMBER),
-         sg.ButtonMenu(button_text='会社名', menu_def=['', company_data], size=(14, 1), font=FONT_SIZE,
-                       key=COMPANY_NAME_DATA_NUMBER),
+         sg.ButtonMenu(button_text='ジャンル', menu_def=['', genre_data], size=(14, 1), font=FONT_SIZE, key=GENRE_NAME_DATA_NUMBER),
+         sg.ButtonMenu(button_text='発売年', menu_def=['', date_birth_data], size=(14, 1), font=FONT_SIZE, key=DATE_BIRTH_DATA_NUMBER),
+         sg.ButtonMenu(button_text='会社名', menu_def=['', company_data], size=(14, 1), font=FONT_SIZE, key=COMPANY_NAME_DATA_NUMBER),
          ]
     ]
 
@@ -88,8 +85,7 @@ def main_menu(sum_number_data, game_list_data, number_data, input_text, values_d
                 sg.Button('詳細', size=(15, 1), font=FONT_SIZE),
                 sg.Button('削除', size=(15, 1), font=FONT_SIZE),
                 ],
-               [sg.Text('{0}件のうち、　{1}から{2}件を表示しています'.format(sum_number_data, now_page_number, next_page_number),
-                        size=(40, 1), font=FONT_SIZE),
+               [sg.Text('{0}件のうち、　{1}から{2}件を表示しています'.format(sum_number_data, now_page_number, next_page_number), size=(40, 1), font=FONT_SIZE),
                 sg.Text('', size=(30, 1), font=FONT_SIZE, key='INPUT')],
                ]
 
