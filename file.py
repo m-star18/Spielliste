@@ -23,8 +23,11 @@ def open_file(event='', event_data=''):
     return list_data, len(list_data) // NUMBER_DATA_PER, event_data
 
 
-def run_file(event_details, number, game_list_data):
-    if event_details == number * NUMBER_DATA_PER + SITE_DATA_NUMBER:
+def run_file(event_details, number, game_list_data, window):
+    if game_list_data[number * NUMBER_DATA_PER + SITE_DATA_NUMBER] == 'site':
+        window['site'].update('エラー: 実行ファイルが指定されていません')
+
+    elif event_details == number * NUMBER_DATA_PER + SITE_DATA_NUMBER:
         os.system("xdg-open '" + game_list_data[number * NUMBER_DATA_PER + SITE_DATA_NUMBER] + "'")
         exit()
 

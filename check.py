@@ -12,7 +12,6 @@ from const import (
 
 
 def search_check(values, values_data, game_list_data, sum_number_data, event):
-    # Because you are importing yourself during import
     from main import main
     search_new_game_list_data = []
     search_new_sum_data_number = 0
@@ -37,7 +36,6 @@ def search_check(values, values_data, game_list_data, sum_number_data, event):
 
 
 def event_check(event, values, values_data, game_list_data, number_data, event_data, sum_number_data, window):
-    # Because you are importing yourself during import
     from main import main
     edit_data = []
 
@@ -66,7 +64,7 @@ def event_check(event, values, values_data, game_list_data, number_data, event_d
 
                 while True:
                     event_details, values_details = window_details.Read()
-                    run_file(event_details, i, game_list_data)
+                    run_file(event_details, i, game_list_data, window_details)
 
                     if event_details is None:
                         break
@@ -104,6 +102,9 @@ def event_check(event, values, values_data, game_list_data, number_data, event_d
 
             if event_add is None or event_add == 'Exit':
                 break
+
+            if values_add[SITE_DATA_NUMBER] == '':
+                values_add[SITE_DATA_NUMBER] = 'site'
 
             if event_add == 'edit':
                 if values_add[IMAGE_DATA_NUMBER] == '':

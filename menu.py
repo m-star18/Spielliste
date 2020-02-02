@@ -16,6 +16,27 @@ from const import (
 )
 
 
+def game_list_sort(game_list_data, sum_number_data):
+    game_name_list_data = [''] * sum_number_data
+    sorted_game_list_data = [''] * (sum_number_data * NUMBER_DATA_PER)
+
+    for i in range(sum_number_data):
+        game_name_list_data[i] = game_list_data[i * NUMBER_DATA_PER + GAME_NAME_DATA_NUMBER]
+
+    sorted_game_name_list_data = sorted(game_name_list_data)
+
+    for i in range(sum_number_data):
+        for j in range(sum_number_data):
+
+            if sorted_game_name_list_data[i] == game_name_list_data[j]:
+                for k in range(NUMBER_DATA_PER):
+                    sorted_game_list_data[i * NUMBER_DATA_PER + k] = game_list_data[j * NUMBER_DATA_PER + k]
+
+                break
+
+    return sorted_game_list_data
+
+
 def create_summary(game_list_data, sum_number_data):
     genre_data = [''] * sum_number_data
     date_birth_data = [0] * sum_number_data
@@ -33,11 +54,14 @@ def create_summary(game_list_data, sum_number_data):
     return genre_data, date_birth_data, company_data
 
 
-def main_menu(sum_number_data, game_list_data, number_data, input_text, values_data, genre_data, date_birth_data, company_data):
+def main_menu(sum_number_data, game_list_data, number_data, input_text, values_data, genre_data, date_birth_data,
+              company_data):
     now_page_number = ONE_COLUMN_LENGTH * number_data
     next_page_number = sum_number_data
     previous_page = []
     next_page = []
+
+    game_list_data = game_list_sort(game_list_data, sum_number_data)
 
     headings = [
         [sg.Text('ゲーム名', size=(20, 1), font=FONT_SIZE),
@@ -60,8 +84,14 @@ def main_menu(sum_number_data, game_list_data, number_data, input_text, values_d
     layout += headings
 
     for i in range(now_page_number, now_page_number + min(ONE_COLUMN_LENGTH, sum_number_data - now_page_number)):
+        if game_list_data[i * NUMBER_DATA_PER + SITE_DATA_NUMBER] == 'site':
+            button_color = ('white', 'black')
+
+        else:
+            button_color = ('black', 'white')
+
         layout += [
-            [sg.Button(game_list_data[i * NUMBER_DATA_PER + GAME_NAME_DATA_NUMBER], size=(19, 1), font=FONT_SIZE),
+            [sg.Button(game_list_data[i * NUMBER_DATA_PER + GAME_NAME_DATA_NUMBER], size=(19, 1), font=FONT_SIZE, button_color=button_color),
              sg.Text(game_list_data[i * NUMBER_DATA_PER + GENRE_NAME_DATA_NUMBER], size=(15, 1), font=FONT_SIZE),
              sg.Text(game_list_data[i * NUMBER_DATA_PER + DATE_BIRTH_DATA_NUMBER] + '年', size=(15, 1), font=FONT_SIZE),
              sg.Text(game_list_data[i * NUMBER_DATA_PER + COMPANY_NAME_DATA_NUMBER], size=(15, 1), font=FONT_SIZE),
@@ -118,6 +148,8 @@ def details_menu(game_list_data, number):
         [sg.CloseButton('戻る', size=(13, 1), font=FONT_SIZE, key='Exit'),
          sg.Button(button_text='実行', size=(13, 1), font=FONT_SIZE, key=number * NUMBER_DATA_PER + SITE_DATA_NUMBER),
          ],
+        [sg.Text('', size=(29, 1), font=FONT_SIZE, key='site'),
+         ],
     ]
 
     return sg.Window(game_list_data[number * NUMBER_DATA_PER] + 'の詳細').Layout(layout_details)
@@ -156,7 +188,7 @@ def add_menu(item_name, edit_data):
          ],
         [sg.FileBrowse(button_text='画像を選択してください', size=(30, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),)),
          ],
-        [sg.FileBrowse(metadata=edit_data[SITE_DATA_NUMBER], button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+        [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
          ],
         [sg.Button(button_text='追加', size=(15, 1), font=FONT_SIZE, key=add_key),
          sg.CloseButton('戻る', size=(15, 1), font=FONT_SIZE, key='Exit'),
