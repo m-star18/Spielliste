@@ -14,7 +14,7 @@ def image_resize(image, game_list_data, number):
 
 
 def open_file(event='', event_data=''):
-    with open('game_list.txt') as game_list:
+    with open('../assets/game_list.txt') as game_list:
         list_data = game_list.read().split()
 
     if event == '削除':
@@ -40,21 +40,21 @@ def delete_file(list_data, event_data):
             for j in range(NUMBER_DATA_PER):
                 delete_line.append(list_data[i * NUMBER_DATA_PER + j])
     # Take the list line by line and output it to a file
-    with open('game_list.txt', 'w', encoding='utf-8') as game_list:
+    with open('../assets/game_list.txt', 'w', encoding='utf-8') as game_list:
         for i in range(len(delete_line) // NUMBER_DATA_PER):
             for j in range(NUMBER_DATA_PER):
                 game_list.write(delete_line[i * NUMBER_DATA_PER + j] + ' ')
 
             game_list.write('\n')
 
-    with open('game_list.txt') as game_list:
+    with open('../assets/game_list.txt') as game_list:
         list_data = game_list.read().split()
 
     return list_data
 
 
 def add_file(values_add, game_list_data, sum_number_data):
-    with open('game_list.txt', 'w', encoding='utf-8') as game_list:
+    with open('../assets/game_list.txt', 'w', encoding='utf-8') as game_list:
         for i in range(sum_number_data):
             for j in range(NUMBER_DATA_PER):
                 game_list.write(game_list_data[i * NUMBER_DATA_PER + j] + ' ')
