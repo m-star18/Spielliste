@@ -1,6 +1,6 @@
-# Game_list
+# Spielliste
 
-"Game_list' is a emulator management list.
+"Spielliste' is a emulator management list.
 
 When you write game information to a file, it is displayed.
 
@@ -20,7 +20,7 @@ pip install pysimplegui
 # Usage
  
 ```bash
-git clone https://github.com/m-star18/Game_list
-cd Game_list
+git clone https://github.com/m-star18/Spielliste
+cd Spielliste
 python main.py
 ```
