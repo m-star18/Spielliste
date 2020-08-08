@@ -197,3 +197,16 @@ def add_menu(item_name, edit_data):
     ]
 
     return sg.Window('作成メニュー').Layout(layout_add)
+
+
+class GameData:
+
+    def __init__(self, game_list):
+        self.name = game_list[0]
+        self.genre = game_list[1]
+        self.date_birth = game_list[2]
+        self.company = game_list[3]
+        self.point = game_list[4]
+        self.image_site = game_list[5]
+        self.site = game_list[6]
+        self.image = Image.open(self.image_site)
