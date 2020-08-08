@@ -210,3 +210,7 @@ class GameData:
         self.image_site = game_list[5]
         self.site = game_list[6]
         self.image = Image.open(self.image_site)
+
+    def image_resize(self):
+        image_size = self.image.resize((500, 500))
+        image_size.save(self.image)
