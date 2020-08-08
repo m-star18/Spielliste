@@ -123,11 +123,10 @@ def main_menu(sum_number_data, game_list_data, number_data, input_text, values_d
 
 
 def details_menu(game_list_data, number):
-    layout_details = []
     image = Image.open(game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
     image_resize(image, game_list_data, number)
 
-    layout_details += [
+    layout_details = [
         [sg.Image(game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER]),
          ],
         [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
@@ -216,10 +215,9 @@ class GameData:
         image_size.save(self.image)
 
     def details_menu(self):
-        layout_details = []
         image_resize()
 
-        layout_details += [
+        layout_details = [
             [sg.Image(self.image),
              ],
             [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
@@ -245,3 +243,10 @@ class GameData:
         ]
 
         return sg.Window(self.name + 'の詳細').Layout(layout_details)
+
+
+class AddGameData(GameData):
+
+    def __init__(self):
+        game_list = [''] * NUMBER_DATA_PER
+        super().__init__(game_list)
