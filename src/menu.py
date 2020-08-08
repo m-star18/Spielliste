@@ -287,3 +287,41 @@ class GameData:
         ]
 
         return sg.Window('作成メニュー').Layout(layout_add)
+
+    def update_menu(self, window):
+        while True:
+            event, values = window.Read()
+
+            if event is None or event == 'Exit':
+                break
+
+            if values[SITE_DATA_NUMBER] == '':
+                values[SITE_DATA_NUMBER] = 'site'
+
+            if event == 'edit':
+                if values[IMAGE_DATA_NUMBER] == '':
+                    values[IMAGE_DATA_NUMBER] = self.image_site
+
+                if values[SITE_DATA_NUMBER] == '':
+                    values[SITE_DATA_NUMBER] = self.site
+
+            for i in range(NUMBER_DATA_PER):
+                if values[i] == '':
+                    window['INPUT'].update('入力忘れがあります')
+                    break
+            """
+            else:
+                if event == '追加':
+                    add_file(values, game_list_data, sum_number_data)
+                    window.close()
+                    window.close()
+                    main()
+
+                else:
+                    event = '削除'
+                    list_data, sum_number_data, event_data = open_file(event=event, event_data=event_data)
+                    add_file(values, game_list_data, sum_number_data)
+                    window.close()
+                    window.close()
+                    main()
+            """

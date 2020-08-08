@@ -113,16 +113,6 @@ def event_check(event, values, values_data, game_list_data, number_data, event_d
                 if values_add[SITE_DATA_NUMBER] == '':
                     values_add[SITE_DATA_NUMBER] = edit_data[SITE_DATA_NUMBER]
 
-            for i in range(min(len(values_add[IMAGE_DATA_NUMBER]), len(values_add[SITE_DATA_NUMBER]), 5)):
-                if values_add[IMAGE_DATA_NUMBER] != '':
-                    image_four_words += values_add[IMAGE_DATA_NUMBER][i]
-
-                if values_add[SITE_DATA_NUMBER] != '':
-                    site_four_words += values_add[SITE_DATA_NUMBER][i]
-
-            window_add[IMAGE_DATA_NUMBER].update('{0}...を選択中'.format(image_four_words))
-            window_add[SITE_DATA_NUMBER].update('{0}...を選択中'.format(site_four_words))
-
             for i in range(NUMBER_DATA_PER):
                 if values_add[i] == '':
                     window_add['INPUT'].update('{0}は必須項目です'.format(item_name[i]))
