@@ -214,3 +214,34 @@ class GameData:
     def image_resize(self):
         image_size = self.image.resize((500, 500))
         image_size.save(self.image)
+
+    def details_menu(self):
+        layout_details = []
+        image_resize()
+
+        layout_details += [
+            [sg.Image(self.image),
+             ],
+            [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
+             sg.Text(self.name, size=(17, 1), font=FONT_SIZE),
+             ],
+            [sg.Text('ジャンル', size=(10, 1), font=FONT_SIZE),
+             sg.Text(self.genre, size=(17, 1), font=FONT_SIZE),
+             ],
+            [sg.Text('発売年', size=(10, 1), font=FONT_SIZE),
+             sg.Text(self.date_birth + '年', size=(17, 1), font=FONT_SIZE),
+             ],
+            [sg.Text('会社名', size=(10, 1), font=FONT_SIZE),
+             sg.Text(self.company, size=(17, 1), font=FONT_SIZE),
+             ],
+            [sg.Text('最高得点', size=(10, 1), font=FONT_SIZE),
+             sg.Text(self.point, size=(17, 1), font=FONT_SIZE),
+             ],
+            [sg.CloseButton('戻る', size=(13, 1), font=FONT_SIZE, key='Exit'),
+             sg.Button(button_text='実行', size=(13, 1), font=FONT_SIZE, key='site'),
+             ],
+            [sg.Text('', size=(29, 1), font=FONT_SIZE),
+             ],
+        ]
+
+        return sg.Window(self.name + 'の詳細').Layout(layout_details)
