@@ -244,9 +244,46 @@ class GameData:
 
         return sg.Window(self.name + 'の詳細').Layout(layout_details)
 
+    def add_menu(self):
+        genre_data = ['シューティング', 'アクション', 'アドベンチャー', 'ロールプレイング', 'パズル',
+                      'レース', 'シュミレーション', 'スポーツ', 'オープンワールド', 'ボード',
+                      ]
+        company_name_data = ['任天堂', 'コナミ', 'エニックス', 'ナムコ', 'ソニー']
 
-class AddGameData(GameData):
+        # Edit and Add are determined by key
+        if self.point == '':
+            self.point = '0'
+            add_key = '追加'
+        else:
+            add_key = 'edit'
 
-    def __init__(self):
-        game_list = [''] * NUMBER_DATA_PER
-        super().__init__(game_list)
+        layout_add = [
+            [sg.Text('タイトル', size=(10, 2), font=FONT_SIZE),
+             sg.Input(default_text=self.name, size=(20, 2), font=FONT_SIZE),
+             ],
+            [sg.Text('ジャンル', size=(10, 2), font=FONT_SIZE),
+             sg.InputCombo(default_value=self.genre, values=genre_data, size=(20, 1),
+                           font=FONT_SIZE),
+             ],
+            [sg.Text('発売年', size=(10, 2), font=FONT_SIZE),
+             sg.Input(default_text=self.date_birth, size=(20, 2), font=FONT_SIZE),
+             ],
+            [sg.Text('会社名', size=(10, 2), font=FONT_SIZE),
+             sg.InputCombo(default_value=self.company, values=company_name_data, size=(20, 1),
+                           font=FONT_SIZE),
+             ],
+            [sg.Text('最高得点', size=(10, 2), font=FONT_SIZE),
+             sg.Input(default_text=self.point, size=(20, 2), font=FONT_SIZE),
+             ],
+            [sg.FileBrowse(button_text='画像を選択してください', size=(30, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER,
+                           file_types=(('Image Files', '*.png'),)),
+             ],
+            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+             ],
+            [sg.Button(button_text='追加', size=(15, 1), font=FONT_SIZE, key=add_key),
+             sg.CloseButton('戻る', size=(15, 1), font=FONT_SIZE, key='Exit'),
+             ],
+            [sg.Text('', size=(30, 1), font=FONT_SIZE, key='INPUT')]
+        ]
+
+        return sg.Window('作成メニュー').Layout(layout_add)
