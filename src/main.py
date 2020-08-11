@@ -63,6 +63,13 @@ class App:
         for key in self.save_data.keys():
             self.game_list.append(Gamedata(self.save_data.load(key)))
 
+    def genre_data(self):
+        res = []
+        for key in self.save_data.keys():
+            res.append(Gamedata(self.save_data.load(key)).genre)
+
+        return res
+
 
 if __name__ == "__main__":
     main()
