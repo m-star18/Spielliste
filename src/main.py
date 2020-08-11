@@ -52,37 +52,41 @@ class App:
         self.save_data = Saves()
         self.game_list = []
         self.number = 0
-        self.load_data()
+        self.get_load_data()
         self.sum_number = len(self.game_list)
 
-        self.window = MainMenu(self.number, self.sum_number, self.game_list, self.genre_data(),
-                               self.date_birth_data(), self.company_data(),
+        self.window = MainMenu(self.number, self.sum_number, self.game_list, self.get_genre_data(),
+                               self.get_date_birth_data(), self.get_company_data(),
                                ).show('', '')
 
-    def load_data(self):
+    def get_load_data(self):
         for key in self.save_data.keys():
             self.game_list.append(Gamedata(self.save_data.load(key)))
 
-    def genre_data(self):
+    def get_genre_data(self):
         res = []
         for key in self.save_data.keys():
             res.append(Gamedata(self.save_data.load(key)).genre)
 
         return res
 
-    def date_birth_data(self):
+    def get_date_birth_data(self):
         res = []
         for key in self.save_data.keys():
             res.append(Gamedata(self.save_data.load(key)).date_birth)
 
         return res
 
-    def company_data(self):
+    def get_company_data(self):
         res = []
         for key in self.save_data.keys():
             res.append(Gamedata(self.save_data.load(key)).company)
 
         return res
+
+    def add_game_data(self, key):
+        self.save_data.save(key, self.save_data.load(key))
+        self.__init__()
 
 
 if __name__ == "__main__":
