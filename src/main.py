@@ -88,6 +88,52 @@ class App:
         self.window.close()
         self.__init__()
 
+    def get_event_check(self, event, window):
+        edit_data = []
+        flag = None
+
+        if event == 'next' or event == 'previous':
+            self.change_page_number(event)
+
+        elif event == '再読込':
+            self.window.close()
+            self.__init__()
+
+        for i in range(self.sum_number):
+            if event == self.game_list[i].name:
+                flag = event
+                self.window['INPUT'].update(f'{event}を選択中')
+
+            elif flag == self.game_list[i].name:
+                if event == '詳細':
+                    window = self.game_list[i].details_menu()
+                    self.game_list[i].update_details(window)
+
+                elif event == '削除':
+                    self.delete_game_data(self.game_list[i].name)
+
+                elif event == '編集':
+                    window = self.game_list[i].add_menu()
+                    key, flag = self.game_list[i].update_data(window)
+
+                    if flag:
+                        self.add_game_data(key)
+                    else:
+                        self.delete_game_data(key)
+
+        if event == '追加':
+            new = Gamedata(edit_data)
+            window = new.add_menu()
+            key, flag = new.update_data(window)
+
+            if flag:
+                self.add_game_data(key)
+            else:
+                self.delete_game_data(key)
+
+        elif event == '詳細' or event == '追加' or event == '編集' or event == '削除':
+            window['INPUT'].update('ゲームを選択してください')
+
 
 if __name__ == "__main__":
     main()
