@@ -70,6 +70,13 @@ class App:
 
         return res
 
+    def date_birth_data(self):
+        res = []
+        for key in self.save_data.keys():
+            res.append(Gamedata(self.save_data.load(key)).date_birth)
+
+        return res
+
 
 if __name__ == "__main__":
     main()
