@@ -14,6 +14,7 @@ from const import (
     NUMBER_DATA_PER,
     ONE_COLUMN_LENGTH,
 )
+import os
 
 
 def game_list_sort(game_list_data, sum_number_data):
@@ -227,7 +228,7 @@ class GameData:
              sg.Text(self.genre, size=(17, 1), font=FONT_SIZE),
              ],
             [sg.Text('発売年', size=(10, 1), font=FONT_SIZE),
-             sg.Text(self.date_birth + '年', size=(17, 1), font=FONT_SIZE),
+             sg.Text(f'{self.date_birth}年', size=(17, 1), font=FONT_SIZE),
              ],
             [sg.Text('会社名', size=(10, 1), font=FONT_SIZE),
              sg.Text(self.company, size=(17, 1), font=FONT_SIZE),
@@ -242,7 +243,7 @@ class GameData:
              ],
         ]
 
-        return sg.Window(self.name + 'の詳細').Layout(layout_details)
+        return sg.Window(f'{self.name}の詳細').Layout(layout_details)
 
     def add_menu(self):
         genre_data = ['シューティング', 'アクション', 'アドベンチャー', 'ロールプレイング', 'パズル',
@@ -288,7 +289,7 @@ class GameData:
 
         return sg.Window('作成メニュー').Layout(layout_add)
 
-    def update_menu(self, window):
+    def update_data(self, window):
         while True:
             event, values = window.Read()
 
@@ -309,19 +310,15 @@ class GameData:
                 if values[i] == '':
                     window['INPUT'].update('入力忘れがあります')
                     break
-            """
-            else:
-                if event == '追加':
-                    add_file(values, game_list_data, sum_number_data)
-                    window.close()
-                    window.close()
-                    main()
 
-                else:
-                    event = '削除'
-                    list_data, sum_number_data, event_data = open_file(event=event, event_data=event_data)
-                    add_file(values, game_list_data, sum_number_data)
-                    window.close()
-                    window.close()
-                    main()
-            """
+            else:
+                window.close()
+                return values, event
+
+    def update_details(self, window):
+        while True:
+            event, = window.Read()
+            if event is None:
+                break
+
+            self.run_data(window)

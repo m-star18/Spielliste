@@ -93,8 +93,6 @@ def event_check(event, values, values_data, game_list_data, number_data, event_d
     elif event == '追加':
         item_name = ['タイトル', 'ジャンル', '発売年', '会社名', '最高得点', '画像ファイル', '実行ファイル']
         window_add = add_menu(item_name, edit_data)
-        image_four_words = ''
-        site_four_words = ''
         i = 0
 
         while True:
