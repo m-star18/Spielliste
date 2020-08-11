@@ -77,6 +77,13 @@ class App:
 
         return res
 
+    def company_data(self):
+        res = []
+        for key in self.save_data.keys():
+            res.append(Gamedata(self.save_data.load(key)).company)
+
+        return res
+
 
 if __name__ == "__main__":
     main()
