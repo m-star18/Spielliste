@@ -135,5 +135,18 @@ class App:
             window['INPUT'].update('ゲームを選択してください')
 
 
+class MainMenu:
+    HEADINGS_NAME = ['ゲーム名', 'ジャンル', '発売年', '会社名']
+    BUTTON_NAME = ['追加', '編集', '詳細', '削除', '検索', '再読込']
+
+    def __init__(self, number, sum_number, game_list, genre, date_birth, company):
+        self.number = number
+        self.sum_number = sum_number
+        self.game_list = game_list
+        self.genre = genre
+        self.date_birth = date_birth
+        self.company = company
+
+
 if __name__ == "__main__":
     main()
