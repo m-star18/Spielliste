@@ -1,3 +1,5 @@
+import os
+
 import PySimpleGUI as sg
 from PIL import Image
 
@@ -14,7 +16,6 @@ from const import (
     NUMBER_DATA_PER,
     ONE_COLUMN_LENGTH,
 )
-import os
 
 
 def game_list_sort(game_list_data, sum_number_data):
