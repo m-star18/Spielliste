@@ -215,6 +215,14 @@ class GameData:
         image_size = self.image.resize((500, 500))
         image_size.save(self.image)
 
+    def run_data(self, window):
+        if self.site == 'site':
+            window['site'].update('エラー: 実行ファイルが指定されていません')
+
+        else:
+            os.system("xdg-open '" + self.site + "'")
+            exit()
+
     def details_menu(self):
         image_resize()
 
