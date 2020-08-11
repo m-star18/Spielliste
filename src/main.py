@@ -88,6 +88,10 @@ class App:
         self.save_data.save(key, self.save_data.load(key))
         self.__init__()
 
+    def delete_game_data(self, key):
+        self.save_data.delete(key)
+        self.__init__()
+
 
 if __name__ == "__main__":
     main()
