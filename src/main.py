@@ -4,18 +4,6 @@ from file import open_file
 from check import event_check
 from menu import main_menu, create_summary, Gamedata
 from saves import Saves
-from const import (
-    FONT_SIZE,
-    GAME_NAME_DATA_NUMBER,
-    GENRE_NAME_DATA_NUMBER,
-    DATE_BIRTH_DATA_NUMBER,
-    COMPANY_NAME_DATA_NUMBER,
-    HIGHEST_SCORE_DATA_NUMBER,
-    IMAGE_DATA_NUMBER,
-    SITE_DATA_NUMBER,
-    NUMBER_DATA_PER,
-    ONE_COLUMN_LENGTH,
-)
 
 
 def main(game_list_data=None, sum_number_data=0, event_data='', number_data=0, input_text='', values_data=None,
@@ -90,6 +78,14 @@ class App:
 
     def delete_game_data(self, key):
         self.save_data.delete(key)
+        self.__init__()
+
+    def change_page_number(self, event):
+        if event == 'next':
+            self.number += 1
+        else:
+            self.number -= 1
+        self.window.close()
         self.__init__()
 
 
