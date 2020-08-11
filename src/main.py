@@ -59,6 +59,10 @@ class App:
                                self.date_birth_data(), self.company_data(),
                                ).show('', '')
 
+    def load_data(self):
+        for key in self.save_data.keys():
+            self.game_list.append(Gamedata(self.save_data.load(key)))
+
 
 if __name__ == "__main__":
     main()
