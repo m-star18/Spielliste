@@ -361,11 +361,11 @@ class MainMenu:
 
 
 if __name__ == "__main__":
-    a = App()
+    app = App()
     while True:
-        event, values = a.window.Read()
-        a.window['INPUT'].update('{0}を選択中'.format(event))
-        a.get_event_check(event)
+        event, values = app.window.Read()
+        app.window['INPUT'].update('{0}を選択中'.format(event))
+        app.get_event_check(event)
 
         if event is None:
             exit()
