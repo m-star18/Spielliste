@@ -8,6 +8,12 @@ from const import (
 )
 
 
+def sum_number_data(game_list_data=None):
+    if game_list_data:
+        return len(game_list_data) // NUMBER_DATA_PER
+    return 0
+
+
 def image_resize(image, game_list_data, number):
     image_size = image.resize((500, 500))
     image_size.save(game_list_data[number * NUMBER_DATA_PER + IMAGE_DATA_NUMBER])
@@ -20,7 +26,7 @@ def open_file(event='', event_data=''):
     if event == '削除':
         list_data = delete_file(list_data, event_data)
 
-    return list_data, len(list_data) // NUMBER_DATA_PER, event_data
+    return list_data, event_data
 
 
 def run_file(event_details, number, game_list_data, window):
@@ -53,9 +59,9 @@ def delete_file(list_data, event_data):
     return list_data
 
 
-def add_file(values_add, game_list_data, sum_number_data):
+def add_file(values_add, game_list_data):
     with open('../assets/game_list.txt', 'w', encoding='utf-8') as game_list:
-        for i in range(sum_number_data):
+        for i in range(sum_number_data(game_list_data)):
             for j in range(NUMBER_DATA_PER):
                 game_list.write(game_list_data[i * NUMBER_DATA_PER + j] + ' ')
 

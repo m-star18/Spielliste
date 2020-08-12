@@ -3,7 +3,7 @@ import os
 import PySimpleGUI as sg
 from PIL import Image
 
-from file import image_resize
+from file import image_resize, sum_number_data
 from const import (
     FONT_SIZE,
     GAME_NAME_DATA_NUMBER,
@@ -18,17 +18,18 @@ from const import (
 )
 
 
-def game_list_sort(game_list_data, sum_number_data):
-    game_name_list_data = [''] * sum_number_data
-    sorted_game_list_data = [''] * (sum_number_data * NUMBER_DATA_PER)
+def game_list_sort(game_list_data):
+    sum_number = sum_number_data(game_list_data)
+    game_name_list_data = [''] * sum_number
+    sorted_game_list_data = [''] * (sum_number * NUMBER_DATA_PER)
 
-    for i in range(sum_number_data):
+    for i in range(sum_number):
         game_name_list_data[i] = game_list_data[i * NUMBER_DATA_PER + GAME_NAME_DATA_NUMBER]
 
     sorted_game_name_list_data = sorted(game_name_list_data)
 
-    for i in range(sum_number_data):
-        for j in range(sum_number_data):
+    for i in range(sum_number):
+        for j in range(sum_number):
 
             if sorted_game_name_list_data[i] == game_name_list_data[j]:
                 for k in range(NUMBER_DATA_PER):
@@ -39,10 +40,11 @@ def game_list_sort(game_list_data, sum_number_data):
     return sorted_game_list_data
 
 
-def create_summary(game_list_data, sum_number_data):
-    genre_data = [''] * sum_number_data
-    date_birth_data = [0] * sum_number_data
-    company_data = [''] * sum_number_data
+def create_summary(game_list_data):
+    sum_number = sum_number_data(game_list_data)
+    genre_data = [''] * sum_number
+    date_birth_data = [0] * sum_number
+    company_data = [''] * sum_number
 
     for i in range(sum_number_data):
         genre_data[i] = game_list_data[i * NUMBER_DATA_PER + GENRE_NAME_DATA_NUMBER]
@@ -56,20 +58,23 @@ def create_summary(game_list_data, sum_number_data):
     return genre_data, date_birth_data, company_data
 
 
-def main_menu(sum_number_data, game_list_data, number_data, input_text, values_data, genre_data, date_birth_data,
-              company_data):
+def main_menu(game_list_data, number_data, input_text, values_data, genre_data, date_birth_data, company_data):
+    sum_number = sum_number_data(game_list_data)
     now_page_number = ONE_COLUMN_LENGTH * number_data
-    next_page_number = sum_number_data
+    next_page_number = sum_number
     previous_page = []
     next_page = []
 
-    game_list_data = game_list_sort(game_list_data, sum_number_data)
+    game_list_data = game_list_sort(game_list_data)
 
     headings = [
         [sg.Text('ゲーム名', size=(20, 1), font=FONT_SIZE),
-         sg.ButtonMenu(button_text='ジャンル', menu_def=['', genre_data], size=(14, 1), font=FONT_SIZE, key=GENRE_NAME_DATA_NUMBER),
-         sg.ButtonMenu(button_text='発売年', menu_def=['', date_birth_data], size=(14, 1), font=FONT_SIZE, key=DATE_BIRTH_DATA_NUMBER),
-         sg.ButtonMenu(button_text='会社名', menu_def=['', company_data], size=(14, 1), font=FONT_SIZE, key=COMPANY_NAME_DATA_NUMBER),
+         sg.ButtonMenu(button_text='ジャンル', menu_def=['', genre_data],
+                       size=(14, 1), font=FONT_SIZE, key=GENRE_NAME_DATA_NUMBER),
+         sg.ButtonMenu(button_text='発売年', menu_def=['', date_birth_data],
+                       size=(14, 1), font=FONT_SIZE, key=DATE_BIRTH_DATA_NUMBER),
+         sg.ButtonMenu(button_text='会社名', menu_def=['', company_data],
+                       size=(14, 1), font=FONT_SIZE, key=COMPANY_NAME_DATA_NUMBER),
          ]
     ]
 
@@ -93,7 +98,8 @@ def main_menu(sum_number_data, game_list_data, number_data, input_text, values_d
             button_color = ('black', 'white')
 
         layout += [
-            [sg.Button(game_list_data[i * NUMBER_DATA_PER + GAME_NAME_DATA_NUMBER], size=(19, 1), font=FONT_SIZE, button_color=button_color),
+            [sg.Button(game_list_data[i * NUMBER_DATA_PER + GAME_NAME_DATA_NUMBER],
+                       size=(19, 1), font=FONT_SIZE, button_color=button_color),
              sg.Text(game_list_data[i * NUMBER_DATA_PER + GENRE_NAME_DATA_NUMBER], size=(15, 1), font=FONT_SIZE),
              sg.Text(game_list_data[i * NUMBER_DATA_PER + DATE_BIRTH_DATA_NUMBER] + '年', size=(15, 1), font=FONT_SIZE),
              sg.Text(game_list_data[i * NUMBER_DATA_PER + COMPANY_NAME_DATA_NUMBER], size=(15, 1), font=FONT_SIZE),
@@ -117,7 +123,8 @@ def main_menu(sum_number_data, game_list_data, number_data, input_text, values_d
                 sg.Button('詳細', size=(15, 1), font=FONT_SIZE),
                 sg.Button('削除', size=(15, 1), font=FONT_SIZE),
                 ],
-               [sg.Text('{0}件のうち、　{1}から{2}件を表示しています'.format(sum_number_data, now_page_number, next_page_number), size=(40, 1), font=FONT_SIZE),
+               [sg.Text(f'{sum_number}件のうち、　{now_page_number}から{next_page_number}件を表示しています',
+                        size=(40, 1), font=FONT_SIZE),
                 sg.Text('', size=(30, 1), font=FONT_SIZE, key='INPUT')],
                ]
 
@@ -176,18 +183,21 @@ def add_menu(item_name, edit_data):
          sg.Input(default_text=edit_data[GAME_NAME_DATA_NUMBER], size=(20, 2), font=FONT_SIZE),
          ],
         [sg.Text(item_name[GENRE_NAME_DATA_NUMBER], size=(10, 2), font=FONT_SIZE),
-         sg.InputCombo(default_value=edit_data[GENRE_NAME_DATA_NUMBER], values=genre_data, size=(20, 1), font=FONT_SIZE),
+         sg.InputCombo(default_value=edit_data[GENRE_NAME_DATA_NUMBER],
+                       values=genre_data, size=(20, 1), font=FONT_SIZE),
          ],
         [sg.Text(item_name[DATE_BIRTH_DATA_NUMBER], size=(10, 2), font=FONT_SIZE),
          sg.Input(default_text=edit_data[DATE_BIRTH_DATA_NUMBER], size=(20, 2), font=FONT_SIZE),
          ],
         [sg.Text(item_name[COMPANY_NAME_DATA_NUMBER], size=(10, 2), font=FONT_SIZE),
-         sg.InputCombo(default_value=edit_data[COMPANY_NAME_DATA_NUMBER], values=company_name_data, size=(20, 1), font=FONT_SIZE),
+         sg.InputCombo(default_value=edit_data[COMPANY_NAME_DATA_NUMBER],
+                       values=company_name_data, size=(20, 1), font=FONT_SIZE),
          ],
         [sg.Text(item_name[HIGHEST_SCORE_DATA_NUMBER], size=(10, 2), font=FONT_SIZE),
          sg.Input(default_text=edit_data[HIGHEST_SCORE_DATA_NUMBER], size=(20, 2), font=FONT_SIZE),
          ],
-        [sg.FileBrowse(button_text='画像を選択してください', size=(30, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),)),
+        [sg.FileBrowse(button_text='画像を選択してください', size=(30, 1),
+                       font=FONT_SIZE, key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),)),
          ],
         [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
          ],
