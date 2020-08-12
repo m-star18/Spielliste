@@ -174,7 +174,6 @@ class GameData:
             else:
                 return key
 
-
     def update_details(self, window):
         while True:
             event, = window.Read()
@@ -254,7 +253,6 @@ class App:
             self.reload_game_data()
 
         for i in range(self.sum_number):
-            print(event, self.flag)
             if event == self.game_list[i].name:
                 self.flag = event
                 self.window['INPUT'].update(f'{event}を選択中')
