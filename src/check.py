@@ -14,7 +14,6 @@ from const import (
 def search_check(values, values_data, game_list_data, event):
     from main import main
     search_new_game_list_data = []
-    search_new_sum_data_number = 0
     game_list_number_data = GAME_NAME_DATA_NUMBER
 
     if event == 'search':
@@ -30,9 +29,7 @@ def search_check(values, values_data, game_list_data, event):
             for j in range(NUMBER_DATA_PER):
                 search_new_game_list_data += [game_list_data[i * NUMBER_DATA_PER + j]]
 
-            search_new_sum_data_number += 1
-
-    return search_new_game_list_data, search_new_sum_data_number, values_data
+    return search_new_game_list_data, values_data
 
 
 def event_check(event, values, values_data, game_list_data, number_data, event_data, window):
@@ -87,10 +84,8 @@ def event_check(event, values, values_data, game_list_data, number_data, event_d
     if event == 'search' or event == GENRE_NAME_DATA_NUMBER or event == DATE_BIRTH_DATA_NUMBER or event == COMPANY_NAME_DATA_NUMBER:
         window.close()
         game_list_data, event_data = open_file(event=event, event_data=event_data)
-        genre_data, date_birth_data, company_data = create_summary(game_list_data)
-        search_game_list_data, search_sum_number_data, values_data = search_check(values, values_data, game_list_data, event)
-        main(game_list_data=search_game_list_data, values_data=values_data, genre_data=genre_data,
-             date_birth_data=date_birth_data, company_data=company_data)
+        search_game_list_data, values_data = search_check(values, values_data, game_list_data, event)
+        main(game_list_data=search_game_list_data, values_data=values_data)
 
     elif event == '追加':
         item_name = ['タイトル', 'ジャンル', '発売年', '会社名', '最高得点', '画像ファイル', '実行ファイル']

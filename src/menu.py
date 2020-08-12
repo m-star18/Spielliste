@@ -58,13 +58,14 @@ def create_summary(game_list_data):
     return genre_data, date_birth_data, company_data
 
 
-def main_menu(game_list_data, number_data, input_text, values_data, genre_data, date_birth_data, company_data):
+def main_menu(game_list_data, number_data, input_text, values_data):
     sum_number = sum_number_data(game_list_data)
     now_page_number = ONE_COLUMN_LENGTH * number_data
     next_page_number = sum_number
     previous_page = []
     next_page = []
 
+    genre_data, date_birth_data, company_data = create_summary(game_list_data)
     game_list_data = game_list_sort(game_list_data)
 
     headings = [
@@ -90,7 +91,7 @@ def main_menu(game_list_data, number_data, input_text, values_data, genre_data, 
     ]
     layout += headings
 
-    for i in range(now_page_number, now_page_number + min(ONE_COLUMN_LENGTH, sum_number_data - now_page_number)):
+    for i in range(now_page_number, now_page_number + min(ONE_COLUMN_LENGTH, sum_number - now_page_number)):
         if game_list_data[i * NUMBER_DATA_PER + SITE_DATA_NUMBER] == 'site':
             button_color = ('white', 'black')
 
@@ -109,7 +110,7 @@ def main_menu(game_list_data, number_data, input_text, values_data, genre_data, 
     if number_data > 0:
         previous_page = [sg.Submit(button_text='前の10件', size=(33, 1), font=FONT_SIZE, key='previous')]
 
-    if sum_number_data > now_page_number + ONE_COLUMN_LENGTH:
+    if sum_number > now_page_number + ONE_COLUMN_LENGTH:
         # Adjust the position by putting in a space
         if now_page_number == 0:
             previous_page = [sg.Text(' ', size=(32, 1), font=FONT_SIZE)]
