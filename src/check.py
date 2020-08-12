@@ -93,7 +93,6 @@ def event_check(event, values, values_data, game_list_data, number_data, event_d
     elif event == '追加':
         item_name = ['タイトル', 'ジャンル', '発売年', '会社名', '最高得点', '画像ファイル', '実行ファイル']
         window_add = add_menu(item_name, edit_data)
-        i = 0
 
         while True:
             event_add, values_add = window_add.Read()
@@ -115,20 +114,20 @@ def event_check(event, values, values_data, game_list_data, number_data, event_d
                 if values_add[i] == '':
                     window_add['INPUT'].update('{0}は必須項目です'.format(item_name[i]))
                     break
+            else:
+                if event_add == '追加':
+                    add_file(values_add, game_list_data, sum_number_data)
+                    window_add.close()
+                    window.close()
+                    main()
 
-            if event_add == '追加' and i == NUMBER_DATA_PER - 1:
-                add_file(values_add, game_list_data, sum_number_data)
-                window_add.close()
-                window.close()
-                main()
-
-            elif event_add == 'edit' and i == NUMBER_DATA_PER - 1:
-                event = '削除'
-                list_data, sum_number_data, event_data = open_file(event=event, event_data=event_data)
-                add_file(values_add, game_list_data, sum_number_data)
-                window_add.close()
-                window.close()
-                main()
+                elif event_add == 'edit':
+                    event = '削除'
+                    list_data, sum_number_data, event_data = open_file(event=event, event_data=event_data)
+                    add_file(values_add, game_list_data, sum_number_data)
+                    window_add.close()
+                    window.close()
+                    main()
 
     elif event == '詳細' or event == '追加' or event == '編集' or event == '削除':
         window['INPUT'].update('ゲームを選択してください')
