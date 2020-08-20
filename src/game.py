@@ -135,6 +135,7 @@ class GameData:
                     break
 
             else:
+                window.close()
                 return key
 
     def update_details(self, window):
