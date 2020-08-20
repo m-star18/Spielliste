@@ -1,5 +1,7 @@
 # Spielliste
 
+![見本](assets/spielliste.jpg)
+
 "Spielliste' is a emulator management list.
 
 When you write game information to a file, it is displayed.
