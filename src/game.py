@@ -1,7 +1,8 @@
 import os
+import io
 
 import PySimpleGUI as sg
-from PIL import Image
+from PIL import Image, ImageTk
 
 from const import (
     FONT_SIZE,
@@ -25,9 +26,18 @@ class GameData:
         if self.image_site != '':
             self.image = Image.open(self.image_site)
 
-    def image_resize(self):
-        image_size = self.image.resize((500, 500))
-        image_size.save(self.image)
+    def get_img_data(self, maxsize=(500, 500), first=False):
+        """
+        Generate image data using PIL
+        """
+        self.image = Image.open(self.image_site)
+        self.image.thumbnail(maxsize)
+        if first:  # tkinter is inactive the first time
+            bio = io.BytesIO()
+            self.image.save(bio, format="PNG")
+            del self.image
+            return bio.getvalue()
+        return ImageTk.PhotoImage(self.image)
 
     def run_data(self, window):
         if self.site == 'site':
@@ -38,10 +48,8 @@ class GameData:
             exit()
 
     def details_menu(self):
-        self.image_resize()
-
         layout_details = [
-            [sg.Image(self.image),
+            [sg.Image(data=self.get_img_data(first=True)),
              ],
             [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
              sg.Text(self.name, size=(17, 1), font=FONT_SIZE),
@@ -140,7 +148,7 @@ class GameData:
 
     def update_details(self, window):
         while True:
-            event, = window.Read()
+            event, _ = window.Read()
             if event is None:
                 break
 
