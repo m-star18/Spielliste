@@ -34,7 +34,7 @@ class GameData:
             window['site'].update('エラー: 実行ファイルが指定されていません')
 
         else:
-            os.system("xdg-open '" + self.site + "'")
+            os.system(f"xdg-open '{self.site}'")
             exit()
 
     def details_menu(self):
