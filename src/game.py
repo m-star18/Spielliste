@@ -149,7 +149,7 @@ class GameData:
     def update_details(self, window):
         while True:
             event, _ = window.Read()
-            if event is None:
+            if event is None or event == 'Exit':
                 break
 
             self.run_data(window)
