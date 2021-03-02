@@ -9,11 +9,11 @@ from const import (
 
 class App:
 
-    def __init__(self):
+    def __init__(self, number=0):
         Saves.current_dbname = 'spielliste'
         self.save_data = Saves()
         self.game_list = []
-        self.number = 0
+        self.number = number
         self.get_load_data()
         self.sum_number = len(self.game_list)
         self.flag = None
@@ -65,7 +65,7 @@ class App:
 
     def reload_game_data(self):
         self.window.close()
-        self.__init__()
+        self.__init__(self.number)
 
     def get_event_check(self, event):
         edit_data = [''] * NUMBER_DATA_PER
