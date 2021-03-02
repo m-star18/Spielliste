@@ -14,7 +14,7 @@ class MainMenu:
     BUTTON_NAME = ['追加', '編集', '詳細', '削除', '検索', '再読込']
 
     def __init__(self, number, sum_number, game_list, genre, date_birth, company):
-        self.number = number
+        self.number = number * 10
         self.sum_number = sum_number
         self.game_list = game_list
         self.genre = genre
@@ -48,7 +48,7 @@ class MainMenu:
         ]
         layout += headings
 
-        for game in self.game_list:
+        for game in self.game_list[self.number:self.number + ONE_COLUMN_LENGTH]:
             if game.site == 'site':
                 button_color = ('white', 'black')
 
@@ -66,7 +66,7 @@ class MainMenu:
         if self.number > 0:
             previous_page = [sg.Submit(button_text='前の10件', size=(33, 1), font=FONT_SIZE, key='previous')]
 
-        if self.sum_number > (self.number + 1) * ONE_COLUMN_LENGTH:
+        if self.sum_number > self.number + ONE_COLUMN_LENGTH:
             # Adjust the position by putting in a space
             if self.number == 0:
                 previous_page = [sg.Text(' ', size=(32, 1), font=FONT_SIZE)]
