@@ -23,7 +23,7 @@ class App:
                                ).show('', '')
 
     def get_load_data(self):
-        for key in self.save_data.keys():
+        for key in sorted(self.save_data.keys()):
             print(key, self.save_data.load(key))
             self.game_list.append(GameData(key, self.save_data.load(key)))
 
