@@ -3,17 +3,24 @@ from saves import Saves
 from game import GameData
 from menu import MainMenu
 from const import (
+    GENRE_NAME_DATA_NUMBER,
+    DATE_BIRTH_DATA_NUMBER,
+    COMPANY_NAME_DATA_NUMBER,
     NUMBER_DATA_PER,
 )
 
 
 class App:
 
-    def __init__(self):
+    def __init__(self, number=0, keys=None):
+        if keys is None:
+            keys = ['全て'] * 3
+
         Saves.current_dbname = 'spielliste'
         self.save_data = Saves()
         self.game_list = []
-        self.number = 0
+        self.keys = keys
+        self.number = number
         self.get_load_data()
         self.sum_number = len(self.game_list)
         self.flag = None
@@ -23,9 +30,13 @@ class App:
                                ).show('', '')
 
     def get_load_data(self):
-        for key in self.save_data.keys():
-            print(key, self.save_data.load(key))
-            self.game_list.append(GameData(key, self.save_data.load(key)))
+        for key in sorted(self.save_data.keys()):
+            # 絞り込み検索
+            for index, k in enumerate(self.keys):
+                if k != '全て' and k != self.save_data.load(key)[index]:
+                    break
+            else:
+                self.game_list.append(GameData(key, self.save_data.load(key)))
 
     def get_genre_data(self):
         res = []
@@ -65,10 +76,22 @@ class App:
 
     def reload_game_data(self):
         self.window.close()
-        self.__init__()
+        self.__init__(self.number, keys=self.keys)
 
-    def get_event_check(self, event):
+    def change_key_check(self, event, values):
+        if event == GENRE_NAME_DATA_NUMBER:
+            self.keys[GENRE_NAME_DATA_NUMBER - 1] = values[GENRE_NAME_DATA_NUMBER]
+
+        elif event == DATE_BIRTH_DATA_NUMBER:
+            self.keys[DATE_BIRTH_DATA_NUMBER - 1] = values[DATE_BIRTH_DATA_NUMBER]
+
+        elif event == COMPANY_NAME_DATA_NUMBER:
+            self.keys[COMPANY_NAME_DATA_NUMBER - 1] = values[COMPANY_NAME_DATA_NUMBER]
+
+    def get_event_check(self, event, values):
         edit_data = [''] * NUMBER_DATA_PER
+
+        self.change_key_check(event, values)
 
         if event == 'next' or event == 'previous':
             self.change_page_number(event)

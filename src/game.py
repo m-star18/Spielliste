@@ -122,13 +122,9 @@ class GameData:
     def update_data(self, window):
         while True:
             event, new_game_data = window.Read()
-            key = list(new_game_data.values())
 
             if event is None or event == 'Exit':
                 break
-
-            if new_game_data[SITE_DATA_NUMBER] == '':
-                new_game_data[SITE_DATA_NUMBER] = 'site'
 
             if event == 'edit':
                 if new_game_data[IMAGE_DATA_NUMBER] == '':
@@ -144,6 +140,7 @@ class GameData:
 
             else:
                 window.close()
+                key = list(new_game_data.values())
                 return key
 
     def update_details(self, window):
