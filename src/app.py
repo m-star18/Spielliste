@@ -3,6 +3,9 @@ from saves import Saves
 from game import GameData
 from menu import MainMenu
 from const import (
+    GENRE_NAME_DATA_NUMBER,
+    DATE_BIRTH_DATA_NUMBER,
+    COMPANY_NAME_DATA_NUMBER,
     NUMBER_DATA_PER,
 )
 
@@ -68,8 +71,20 @@ class App:
         self.window.close()
         self.__init__(self.number)
 
-    def get_event_check(self, event):
+    def change_key_check(self, event, values):
+        if event == GENRE_NAME_DATA_NUMBER:
+            self.key[GENRE_NAME_DATA_NUMBER - 1] = values[GENRE_NAME_DATA_NUMBER]
+
+        elif event == DATE_BIRTH_DATA_NUMBER:
+            self.key[DATE_BIRTH_DATA_NUMBER - 1] = values[DATE_BIRTH_DATA_NUMBER]
+
+        elif event == COMPANY_NAME_DATA_NUMBER:
+            self.key[COMPANY_NAME_DATA_NUMBER - 1] = values[COMPANY_NAME_DATA_NUMBER]
+
+    def get_event_check(self, event, values):
         edit_data = [''] * NUMBER_DATA_PER
+
+        self.change_key_check(event, values)
 
         if event == 'next' or event == 'previous':
             self.change_page_number(event)
