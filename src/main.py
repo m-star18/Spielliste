@@ -5,7 +5,7 @@ def main():
     app = App()
     while True:
         event, values = app.window.Read()
-        app.get_event_check(event)
+        app.get_event_check(event, values)
 
         if event is None:
             break
