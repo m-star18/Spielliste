@@ -37,6 +37,9 @@ class App:
     def get_load_data(self):
         for key in sorted(self.save_data.keys()):
             # Refine search
+            if self.search_word not in key:
+                continue
+
             for k, v in zip(self.keys, self.save_data.load(key)):
                 if k != '全て' and k != v:
                     break
