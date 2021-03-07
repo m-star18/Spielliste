@@ -15,9 +15,7 @@ When you write game information to a file, it is displayed.
 # Installation
  
 ```bash
-pip install Pillow
-pip install pysimplegui
-pip install saves
+pip install -r requirements.txt
 ```
  
 # Usage
