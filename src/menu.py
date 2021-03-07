@@ -27,12 +27,12 @@ class MainMenu:
 
         headings = [
             [sg.Text(text=self.HEADINGS_NAME[0], size=(20, 1), font=FONT_SIZE),
-             sg.ButtonMenu(button_text=self.HEADINGS_NAME[1], menu_def=['', self.genre], size=(18, 1), font=FONT_SIZE,
-                           key=GENRE_NAME_DATA_NUMBER),
-             sg.ButtonMenu(button_text=self.HEADINGS_NAME[2], menu_def=['', self.date_birth], size=(18, 1),
-                           font=FONT_SIZE, key=DATE_BIRTH_DATA_NUMBER),
-             sg.ButtonMenu(button_text=self.HEADINGS_NAME[3], menu_def=['', self.company], size=(18, 1), font=FONT_SIZE,
-                           key=COMPANY_NAME_DATA_NUMBER),
+             sg.ButtonMenu(button_text=self.HEADINGS_NAME[1], menu_def=['', list(set(sorted(self.genre)))],
+                           size=(18, 1), font=FONT_SIZE, key=GENRE_NAME_DATA_NUMBER),
+             sg.ButtonMenu(button_text=self.HEADINGS_NAME[2], menu_def=['', list(set(sorted(self.date_birth)))],
+                           size=(18, 1), font=FONT_SIZE, key=DATE_BIRTH_DATA_NUMBER),
+             sg.ButtonMenu(button_text=self.HEADINGS_NAME[3], menu_def=['', list(set(sorted(self.company)))],
+                           size=(18, 1), font=FONT_SIZE, key=COMPANY_NAME_DATA_NUMBER),
              ]
         ]
 
