@@ -32,7 +32,7 @@ class App:
 
         self.window = MainMenu(self.number, self.sum_number, self.game_list, self.get_genre_data(),
                                self.get_date_birth_data(), self.get_company_data(),
-                               ).show('', '')
+                               ).show(self.search_word)
 
     def get_load_data(self):
         for key in sorted(self.save_data.keys()):
