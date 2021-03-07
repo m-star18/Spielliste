@@ -21,7 +21,7 @@ class MainMenu:
         self.date_birth = list(set(sorted(date_birth))) + ['全て']
         self.company = list(set(sorted(company))) + ['全て']
 
-    def show(self, input_text, values_data):
+    def show(self, input_text):
         previous_page = []
         next_page = []
 
@@ -35,9 +35,6 @@ class MainMenu:
                            size=(18, 1), font=FONT_SIZE, key=COMPANY_NAME_DATA_NUMBER),
              ]
         ]
-
-        if len(values_data) != 0 and values_data[0] == input_text:
-            input_text = ''
 
         layout = [
             [sg.Text(size=(25, 1)),

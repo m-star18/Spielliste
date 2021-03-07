@@ -12,7 +12,7 @@ from const import (
 
 class App:
 
-    def __init__(self, number=0, keys=None):
+    def __init__(self, number=0, keys=None, word=''):
         if keys is None:
             keys = ['全て'] * 3
 
@@ -20,20 +20,28 @@ class App:
         self.save_data = Saves()
         self.game_list = []
         self.keys = keys
-        self.number = number
+        self.search_word = word
         self.get_load_data()
         self.sum_number = len(self.game_list)
         self.flag = None
 
+        if self.sum_number >= number * 10:
+            self.number = number
+        else:
+            self.number = 0
+
         self.window = MainMenu(self.number, self.sum_number, self.game_list, self.get_genre_data(),
                                self.get_date_birth_data(), self.get_company_data(),
-                               ).show('', '')
+                               ).show(self.search_word)
 
     def get_load_data(self):
         for key in sorted(self.save_data.keys()):
-            # 絞り込み検索
-            for index, k in enumerate(self.keys):
-                if k != '全て' and k != self.save_data.load(key)[index]:
+            # Refine search
+            if self.search_word not in key:
+                continue
+
+            for k, v in zip(self.keys, self.save_data.load(key)):
+                if k != '全て' and k != v:
                     break
             else:
                 self.game_list.append(GameData(key, self.save_data.load(key)))
@@ -76,17 +84,21 @@ class App:
 
     def reload_game_data(self):
         self.window.close()
-        self.__init__(self.number, keys=self.keys)
+        self.__init__(number=self.number, keys=self.keys, word=self.search_word)
 
     def change_key_check(self, event, values):
         if event == GENRE_NAME_DATA_NUMBER:
-            self.keys[GENRE_NAME_DATA_NUMBER - 1] = values[GENRE_NAME_DATA_NUMBER]
+            self.keys[0] = values[GENRE_NAME_DATA_NUMBER]
 
         elif event == DATE_BIRTH_DATA_NUMBER:
-            self.keys[DATE_BIRTH_DATA_NUMBER - 1] = values[DATE_BIRTH_DATA_NUMBER]
+            self.keys[1] = values[DATE_BIRTH_DATA_NUMBER]
 
         elif event == COMPANY_NAME_DATA_NUMBER:
-            self.keys[COMPANY_NAME_DATA_NUMBER - 1] = values[COMPANY_NAME_DATA_NUMBER]
+            self.keys[2] = values[COMPANY_NAME_DATA_NUMBER]
+
+        elif event == 'search':
+            self.search_word = values[0]
+            self.reload_game_data()
 
     def get_event_check(self, event, values):
         edit_data = [''] * NUMBER_DATA_PER
