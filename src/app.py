@@ -31,9 +31,9 @@ class App:
 
     def get_load_data(self):
         for key in sorted(self.save_data.keys()):
-            # 絞り込み検索
-            for index, k in enumerate(self.keys):
-                if k != '全て' and k != self.save_data.load(key)[index]:
+            # Refine search
+            for k, v in zip(self.keys, self.save_data.load(key)):
+                if k != '全て' and k != v:
                     break
             else:
                 self.game_list.append(GameData(key, self.save_data.load(key)))
