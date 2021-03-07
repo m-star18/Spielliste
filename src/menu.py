@@ -64,14 +64,14 @@ class MainMenu:
             ]
         # Determine if you need a button
         if self.number > 0:
-            previous_page = [sg.Submit(button_text='前の10件', size=(33, 1), font=FONT_SIZE, key='previous')]
+            previous_page = [sg.Submit(button_text='前の10件', size=(38, 1), font=FONT_SIZE, key='previous')]
 
         if self.sum_number > self.number + ONE_COLUMN_LENGTH:
             # Adjust the position by putting in a space
             if self.number == 0:
-                previous_page = [sg.Text(' ', size=(32, 1), font=FONT_SIZE)]
+                previous_page = [sg.Text(' ', size=(38, 1), font=FONT_SIZE)]
 
-            next_page = [sg.Submit(button_text='次の10件', size=(33, 1), font=FONT_SIZE, key='next')]
+            next_page = [sg.Submit(button_text='次の10件', size=(38, 1), font=FONT_SIZE, key='next')]
             next_number = self.number + ONE_COLUMN_LENGTH
 
         else:
@@ -83,7 +83,7 @@ class MainMenu:
                     sg.Button(button_text=self.BUTTON_NAME[2], size=(17, 1), font=FONT_SIZE),
                     sg.Button(button_text=self.BUTTON_NAME[3], size=(17, 1), font=FONT_SIZE),
                     ],
-                   [sg.Text(f'{self.sum_number}件のうち、　{self.number}から{next_number}件を表示しています',
+                   [sg.Text(f'{self.sum_number}件のうち、{self.number}から{next_number}件を表示しています',
                             size=(40, 1), font=FONT_SIZE),
                     sg.Text('', size=(30, 1), font=FONT_SIZE, key='INPUT')],
                    ]
