@@ -17,6 +17,7 @@ class App:
         self.get_load_data()
         self.sum_number = len(self.game_list)
         self.flag = None
+        self.key = ['全て'] * 3
 
         self.window = MainMenu(self.number, self.sum_number, self.game_list, self.get_genre_data(),
                                self.get_date_birth_data(), self.get_company_data(),

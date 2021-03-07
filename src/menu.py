@@ -17,9 +17,9 @@ class MainMenu:
         self.number = number * 10
         self.sum_number = sum_number
         self.game_list = game_list
-        self.genre = genre
-        self.date_birth = date_birth
-        self.company = company
+        self.genre = list(set(sorted(genre))) + ['全て']
+        self.date_birth = list(set(sorted(date_birth))) + ['全て']
+        self.company = list(set(sorted(company))) + ['全て']
 
     def show(self, input_text, values_data):
         previous_page = []
@@ -27,11 +27,11 @@ class MainMenu:
 
         headings = [
             [sg.Text(text=self.HEADINGS_NAME[0], size=(20, 1), font=FONT_SIZE),
-             sg.ButtonMenu(button_text=self.HEADINGS_NAME[1], menu_def=['', list(set(sorted(self.genre)))],
+             sg.ButtonMenu(button_text=self.HEADINGS_NAME[1], menu_def=['', self.genre],
                            size=(18, 1), font=FONT_SIZE, key=GENRE_NAME_DATA_NUMBER),
-             sg.ButtonMenu(button_text=self.HEADINGS_NAME[2], menu_def=['', list(set(sorted(self.date_birth)))],
+             sg.ButtonMenu(button_text=self.HEADINGS_NAME[2], menu_def=['', self.date_birth],
                            size=(18, 1), font=FONT_SIZE, key=DATE_BIRTH_DATA_NUMBER),
-             sg.ButtonMenu(button_text=self.HEADINGS_NAME[3], menu_def=['', list(set(sorted(self.company)))],
+             sg.ButtonMenu(button_text=self.HEADINGS_NAME[3], menu_def=['', self.company],
                            size=(18, 1), font=FONT_SIZE, key=COMPANY_NAME_DATA_NUMBER),
              ]
         ]
