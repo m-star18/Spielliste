@@ -73,6 +73,7 @@ class App:
 
     def delete_game_data(self, key):
         self.save_data.delete(key)
+        # To reflect that the data was loss.
         self.reload_game_data()
 
     def change_page_number(self, event):
@@ -123,6 +124,7 @@ class App:
 
                 elif event == '削除':
                     self.delete_game_data(self.game_list[i].name)
+                    return
 
                 elif event == '編集':
                     window = self.game_list[i].add_menu()
