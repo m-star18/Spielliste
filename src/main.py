@@ -5,10 +5,10 @@ def main():
     app = App()
     while True:
         event, values = app.window.Read()
-        app.get_event_check(event, values)
-
         if event is None:
             break
+
+        app.get_event_check(event, values)
 
 
 if __name__ == "__main__":
