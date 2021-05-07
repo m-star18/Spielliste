@@ -124,6 +124,7 @@ class App:
 
                 elif event == '削除':
                     self.delete_game_data(self.game_list[i].name)
+                    # Keep the program closed for a safe screen transition.
                     return
 
                 elif event == '編集':
@@ -132,6 +133,7 @@ class App:
 
                     if key:
                         self.add_game_data(key)
+                        # Keep the program closed for a safe screen transition.
                         return
 
         if event == '追加':
