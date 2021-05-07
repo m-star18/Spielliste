@@ -132,6 +132,7 @@ class App:
 
                     if key:
                         self.add_game_data(key)
+                        return
 
         if event == '追加':
             new_game_data = GameData(edit_data[0], edit_data[1:])
@@ -140,6 +141,7 @@ class App:
 
             if key:
                 self.add_game_data(key)
+                return
 
         elif event == '詳細' or event == '追加' or event == '編集' or event == '削除':
             self.window['INPUT'].update('ゲームを選択してください')
