@@ -133,7 +133,8 @@ class GameData:
                 if new_game_data[SITE_DATA_NUMBER] == '':
                     new_game_data[SITE_DATA_NUMBER] = self.site
 
-            for i in range(NUMBER_DATA_PER):
+            # Don't require "site" to be entered.
+            for i in range(NUMBER_DATA_PER - 1):
                 if new_game_data[i] == '':
                     window['INPUT'].update('入力忘れがあります')
                     break
