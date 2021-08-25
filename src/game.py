@@ -25,6 +25,8 @@ class GameData:
 
         if self.image_site != '':
             self.image = Image.open(self.image_site)
+        if self.site == '':
+            self.site = 'site'
 
     def get_img_data(self, maxsize=(500, 500), first=False):
         """
@@ -67,9 +69,9 @@ class GameData:
              sg.Text(self.point, size=(17, 1), font=FONT_SIZE),
              ],
             [sg.CloseButton('戻る', size=(13, 1), font=FONT_SIZE, key='Exit'),
-             sg.Button(button_text='実行', size=(13, 1), font=FONT_SIZE, key='site'),
+             sg.Button(button_text='実行', size=(13, 1), font=FONT_SIZE),
              ],
-            [sg.Text('', size=(29, 1), font=FONT_SIZE),
+            [sg.Text('', size=(42, 1), font=FONT_SIZE, key='site'),
              ],
         ]
 
