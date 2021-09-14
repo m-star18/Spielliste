@@ -1,3 +1,4 @@
+import os
 import io
 import subprocess
 
@@ -25,10 +26,13 @@ class GameData:
         self.site = game_list[5]
         self.exec_site = game_list[6]
 
-        if self.image_site != '':
-            self.image = Image.open(self.image_site)
+        if self.image_site == '':
+            self.image_site = os.path.abspath('assets/no-image.png')
+        self.image = Image.open(self.image_site)
+
         if self.site == '':
             self.site = 'site'
+
         if self.exec_site == '':
             self.exec_site = 'exec'
 
