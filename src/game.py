@@ -1,5 +1,6 @@
 import os
 import io
+import subprocess
 
 import PySimpleGUI as sg
 from PIL import Image, ImageTk
@@ -9,6 +10,7 @@ from const import (
     NUMBER_DATA_PER,
     IMAGE_DATA_NUMBER,
     SITE_DATA_NUMBER,
+    EXEC_DATA_NUMBER
 )
 
 
@@ -22,6 +24,7 @@ class GameData:
         self.point = game_list[3]
         self.image_site = game_list[4]
         self.site = game_list[5]
+        self.exec_site = game_list[6]
 
         if self.image_site != '':
             self.image = Image.open(self.image_site)
@@ -46,6 +49,7 @@ class GameData:
             window['site'].update('エラー: 実行ファイルが指定されていません')
 
         else:
+            subprocess.Popen([rf"{self}", rf"{self.site}"], shell=True)
             os.system(f"xdg-open '{self.site}'")
             exit()
 
@@ -111,7 +115,9 @@ class GameData:
             [sg.FileBrowse(button_text='画像を選択してください', size=(30, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER,
                            file_types=(('Image Files', '*.png'),)),
              ],
-            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+            [sg.FileBrowse(button_text='romファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+             ],
+            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=EXEC_DATA_NUMBER),
              ],
             [sg.Button(button_text='追加', size=(15, 1), font=FONT_SIZE, key=add_key),
              sg.CloseButton('戻る', size=(15, 1), font=FONT_SIZE, key='Exit'),
