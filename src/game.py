@@ -1,5 +1,5 @@
-import os
 import io
+import subprocess
 
 import PySimpleGUI as sg
 from PIL import Image, ImageTk
@@ -9,6 +9,7 @@ from const import (
     NUMBER_DATA_PER,
     IMAGE_DATA_NUMBER,
     SITE_DATA_NUMBER,
+    EXEC_DATA_NUMBER
 )
 
 
@@ -22,11 +23,14 @@ class GameData:
         self.point = game_list[3]
         self.image_site = game_list[4]
         self.site = game_list[5]
+        self.exec_site = game_list[6]
 
         if self.image_site != '':
             self.image = Image.open(self.image_site)
         if self.site == '':
             self.site = 'site'
+        if self.exec_site == '':
+            self.exec_site = 'exec'
 
     def get_img_data(self, maxsize=(500, 500), first=False):
         """
@@ -43,10 +47,12 @@ class GameData:
 
     def run_data(self, window):
         if self.site == 'site':
+            window['site'].update('エラー: romファイルが指定されていません')
+        elif self.exec_site == 'exec':
             window['site'].update('エラー: 実行ファイルが指定されていません')
 
         else:
-            os.system(f"xdg-open '{self.site}'")
+            subprocess.Popen([rf"{self.exec_site}", rf"{self.site}"], shell=True)
             exit()
 
     def details_menu(self):
@@ -111,7 +117,9 @@ class GameData:
             [sg.FileBrowse(button_text='画像を選択してください', size=(30, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER,
                            file_types=(('Image Files', '*.png'),)),
              ],
-            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+            [sg.FileBrowse(button_text='romファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+             ],
+            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(30, 1), font=FONT_SIZE, key=EXEC_DATA_NUMBER),
              ],
             [sg.Button(button_text='追加', size=(15, 1), font=FONT_SIZE, key=add_key),
              sg.CloseButton('戻る', size=(15, 1), font=FONT_SIZE, key='Exit'),
@@ -128,12 +136,14 @@ class GameData:
             if event is None or event == 'Exit':
                 break
 
-            if event == 'edit':
-                if new_game_data[IMAGE_DATA_NUMBER] == '':
-                    new_game_data[IMAGE_DATA_NUMBER] = self.image_site
+            if new_game_data[IMAGE_DATA_NUMBER] == '':
+                new_game_data[IMAGE_DATA_NUMBER] = self.image_site
 
-                if new_game_data[SITE_DATA_NUMBER] == '':
-                    new_game_data[SITE_DATA_NUMBER] = self.site
+            if new_game_data[SITE_DATA_NUMBER] == '':
+                new_game_data[SITE_DATA_NUMBER] = self.site
+
+            if new_game_data[EXEC_DATA_NUMBER] == '':
+                new_game_data[EXEC_DATA_NUMBER] = self.exec_site
 
             # Don't require "site" to be entered.
             for i in range(NUMBER_DATA_PER - 1):

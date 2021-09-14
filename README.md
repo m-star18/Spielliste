@@ -9,7 +9,7 @@ When you write game information to a file, it is displayed.
 ## Requirement
  
 * Python 3.7.5
-* Pillow 8.2.0
+* Pillow 8.3.2
 * PySimpleGUI 4.39.1
 * Saves 0.1
  

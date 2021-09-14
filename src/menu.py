@@ -46,7 +46,7 @@ class MainMenu:
         layout += headings
 
         for game in self.game_list[self.number:self.number + ONE_COLUMN_LENGTH]:
-            if game.site == '':
+            if game.site == 'site':
                 button_color = ('white', 'black')
 
             else:
