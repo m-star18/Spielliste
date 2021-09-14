@@ -30,6 +30,8 @@ class GameData:
             self.image = Image.open(self.image_site)
         if self.site == '':
             self.site = 'site'
+        if self.exec_site == '':
+            self.exec_site = 'exec'
 
     def get_img_data(self, maxsize=(500, 500), first=False):
         """
@@ -46,11 +48,12 @@ class GameData:
 
     def run_data(self, window):
         if self.site == 'site':
+            window['site'].update('エラー: romファイルが指定されていません')
+        elif self.exec_site == 'exec':
             window['site'].update('エラー: 実行ファイルが指定されていません')
 
         else:
-            subprocess.Popen([rf"{self}", rf"{self.site}"], shell=True)
-            os.system(f"xdg-open '{self.site}'")
+            subprocess.Popen([rf"{self.exec_site}", rf"{self.site}"], shell=True)
             exit()
 
     def details_menu(self):
@@ -134,12 +137,14 @@ class GameData:
             if event is None or event == 'Exit':
                 break
 
-            if event == 'edit':
-                if new_game_data[IMAGE_DATA_NUMBER] == '':
-                    new_game_data[IMAGE_DATA_NUMBER] = self.image_site
+            if new_game_data[IMAGE_DATA_NUMBER] == '':
+                new_game_data[IMAGE_DATA_NUMBER] = self.image_site
 
-                if new_game_data[SITE_DATA_NUMBER] == '':
-                    new_game_data[SITE_DATA_NUMBER] = self.site
+            if new_game_data[SITE_DATA_NUMBER] == '':
+                new_game_data[SITE_DATA_NUMBER] = self.site
+
+            if new_game_data[EXEC_DATA_NUMBER] == '':
+                new_game_data[EXEC_DATA_NUMBER] = self.exec_site
 
             # Don't require "site" to be entered.
             for i in range(NUMBER_DATA_PER - 1):
