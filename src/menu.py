@@ -26,7 +26,7 @@ class MainMenu:
         next_page = []
 
         headings = [
-            [sg.Text(text=self.HEADINGS_NAME[0], size=(20, 1), font=FONT_SIZE),
+            [sg.Text(text=self.HEADINGS_NAME[0], size=(51, 1), font=FONT_SIZE),
              sg.ButtonMenu(button_text=self.HEADINGS_NAME[1], menu_def=['', self.genre],
                            size=(18, 1), font=FONT_SIZE, key=GENRE_NAME_DATA_NUMBER),
              sg.ButtonMenu(button_text=self.HEADINGS_NAME[2], menu_def=['', self.date_birth],
@@ -37,10 +37,10 @@ class MainMenu:
         ]
 
         layout = [
-            [sg.Text(size=(25, 1)),
-             sg.Input(size=(25, 1), font=FONT_SIZE, default_text=input_text),
-             sg.Button(button_text=self.BUTTON_NAME[4], size=(17, 1), font=FONT_SIZE, key='search'),
-             sg.Button(button_text=self.BUTTON_NAME[5], size=(17, 1), font=FONT_SIZE),
+            [sg.Text(size=(70, 1)),
+             sg.Input(size=(30, 1), font=FONT_SIZE, default_text=input_text),
+             sg.Button(button_text=self.BUTTON_NAME[4], size=(18, 1), font=FONT_SIZE, key='search'),
+             sg.Button(button_text=self.BUTTON_NAME[5], size=(18, 1), font=FONT_SIZE),
              ]
         ]
         layout += headings
@@ -53,7 +53,7 @@ class MainMenu:
                 button_color = ('black', 'white')
 
             layout += [
-                [sg.Button(game.name, size=(19, 1), font=FONT_SIZE, button_color=button_color),
+                [sg.Button(game.name, size=(50, 1), font=FONT_SIZE, button_color=button_color),
                  sg.Text(game.genre, size=(18, 1), font=FONT_SIZE),
                  sg.Text(game.date_birth + '年', size=(18, 1), font=FONT_SIZE),
                  sg.Text(game.company, size=(18, 1), font=FONT_SIZE),
@@ -61,28 +61,28 @@ class MainMenu:
             ]
         # Determine if you need a button
         if self.number > 0:
-            previous_page = [sg.Submit(button_text='前の10件', size=(38, 1), font=FONT_SIZE, key='previous')]
+            previous_page = [sg.Submit(button_text='前の10件', size=(53, 1), font=FONT_SIZE, key='previous')]
 
         if self.sum_number > self.number + ONE_COLUMN_LENGTH:
             # Adjust the position by putting in a space
             if self.number == 0:
-                previous_page = [sg.Text(' ', size=(38, 1), font=FONT_SIZE)]
+                previous_page = [sg.Text(' ', size=(55, 1), font=FONT_SIZE)]
 
-            next_page = [sg.Submit(button_text='次の10件', size=(38, 1), font=FONT_SIZE, key='next')]
+            next_page = [sg.Submit(button_text='次の10件', size=(53, 1), font=FONT_SIZE, key='next')]
             next_number = self.number + ONE_COLUMN_LENGTH
 
         else:
             next_number = self.sum_number
 
         layout += [previous_page + next_page,
-                   [sg.Button(button_text=self.BUTTON_NAME[0], size=(17, 1), font=FONT_SIZE),
-                    sg.Button(button_text=self.BUTTON_NAME[1], size=(17, 1), font=FONT_SIZE),
-                    sg.Button(button_text=self.BUTTON_NAME[2], size=(17, 1), font=FONT_SIZE),
-                    sg.Button(button_text=self.BUTTON_NAME[3], size=(17, 1), font=FONT_SIZE),
+                   [sg.Button(button_text=self.BUTTON_NAME[0], size=(25, 1), font=FONT_SIZE),
+                    sg.Button(button_text=self.BUTTON_NAME[1], size=(25, 1), font=FONT_SIZE),
+                    sg.Button(button_text=self.BUTTON_NAME[2], size=(25, 1), font=FONT_SIZE),
+                    sg.Button(button_text=self.BUTTON_NAME[3], size=(25, 1), font=FONT_SIZE),
                     ],
                    [sg.Text(f'{self.sum_number}件のうち、{self.number}から{next_number}件を表示しています',
                             size=(40, 1), font=FONT_SIZE),
-                    sg.Text('', size=(30, 1), font=FONT_SIZE, key='INPUT')],
+                    sg.Text('', size=(60, 1), font=FONT_SIZE, key='INPUT')],
                    ]
 
         return sg.Window('Spielliste v1.0.0').Layout(layout)
