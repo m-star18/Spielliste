@@ -8,6 +8,7 @@ from const import (
     DATE_BIRTH_DATA_NUMBER,
     COMPANY_NAME_DATA_NUMBER,
     NUMBER_DATA_PER,
+    FONT_SIZE,
 )
 
 
@@ -106,13 +107,13 @@ class App:
         edit_data = [''] * NUMBER_DATA_PER
 
         self.change_key_check(event, values)
-        print(event, values)
 
         if event == 'next' or event == 'previous':
             self.change_page_number(event)
 
         elif event == '再読込':
-            self.reload_game_data()
+            self.window.close()
+            self.__init__()
 
         for i in range(self.sum_number):
             if event == self.game_list[i].name:
@@ -126,7 +127,7 @@ class App:
                     self.game_list[i].update_details(window)
 
                 elif event == '削除':
-                    del_flag = sg.popup_ok_cancel(f'{self.game_list[i].name}を削除しますか？', font=[1, 20])
+                    del_flag = sg.popup_ok_cancel(f'{self.game_list[i].name}を削除しますか？', font=FONT_SIZE)
                     print(del_flag)
                     if del_flag == 'OK':
                         self.delete_game_data(self.game_list[i].name)
