@@ -112,7 +112,8 @@ class App:
             self.change_page_number(event)
 
         elif event == '再読込':
-            self.reload_game_data()
+            self.window.close()
+            self.__init__()
 
         for i in range(self.sum_number):
             if event == self.game_list[i].name:
