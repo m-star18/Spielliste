@@ -85,4 +85,4 @@ class MainMenu:
                     sg.Text('', size=(30, 1), font=FONT_SIZE, key='INPUT')],
                    ]
 
-        return sg.Window('Game menu').Layout(layout)
+        return sg.Window('Spielliste v1.0.0').Layout(layout)
