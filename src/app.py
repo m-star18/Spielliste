@@ -107,7 +107,6 @@ class App:
         edit_data = [''] * NUMBER_DATA_PER
 
         self.change_key_check(event, values)
-        print(event, values)
 
         if event == 'next' or event == 'previous':
             self.change_page_number(event)
