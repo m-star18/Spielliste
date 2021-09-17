@@ -106,6 +106,7 @@ class App:
         edit_data = [''] * NUMBER_DATA_PER
 
         self.change_key_check(event, values)
+        print(event, values)
 
         if event == 'next' or event == 'previous':
             self.change_page_number(event)
@@ -120,6 +121,7 @@ class App:
 
             elif self.flag == self.game_list[i].name:
                 if event == '詳細':
+                    self.flag = None
                     window = self.game_list[i].details_menu()
                     self.game_list[i].update_details(window)
 
@@ -132,6 +134,7 @@ class App:
                     return
 
                 elif event == '編集':
+                    self.flag = None
                     window = self.game_list[i].add_menu()
                     key = self.game_list[i].update_data(window)
 
