@@ -140,6 +140,8 @@ class App:
                     key = self.game_list[i].update_data(window)
 
                     if key:
+                        if key[0] != self.game_list[i].name:
+                            self.delete_game_data(self.game_list[i].name)
                         self.add_game_data(key)
                         # Keep the program closed for a safe screen transition.
                         return
