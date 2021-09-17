@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 from saves import Saves
 
 from game import GameData
@@ -123,7 +124,10 @@ class App:
                     self.game_list[i].update_details(window)
 
                 elif event == '削除':
-                    self.delete_game_data(self.game_list[i].name)
+                    del_flag = sg.popup_ok_cancel(f'{self.game_list[i].name}を削除しますか？', font=[1, 20])
+                    print(del_flag)
+                    if del_flag == 'OK':
+                        self.delete_game_data(self.game_list[i].name)
                     # Keep the program closed for a safe screen transition.
                     return
 
