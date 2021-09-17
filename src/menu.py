@@ -17,9 +17,9 @@ class MainMenu:
         self.number = number * 10
         self.sum_number = sum_number
         self.game_list = game_list
-        self.genre = list(set(sorted(genre))) + ['全て']
-        self.date_birth = list(set(sorted(date_birth))) + ['全て']
-        self.company = list(set(sorted(company))) + ['全て']
+        self.genre = sorted(list(set(genre))) + ['全て']
+        self.date_birth = sorted(list(set(date_birth))) + ['全て']
+        self.company = sorted(list(set(company))) + ['全て']
 
     def show(self, input_text):
         previous_page = []
