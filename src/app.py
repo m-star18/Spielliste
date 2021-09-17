@@ -8,6 +8,7 @@ from const import (
     DATE_BIRTH_DATA_NUMBER,
     COMPANY_NAME_DATA_NUMBER,
     NUMBER_DATA_PER,
+    FONT_SIZE,
 )
 
 
@@ -126,7 +127,7 @@ class App:
                     self.game_list[i].update_details(window)
 
                 elif event == '削除':
-                    del_flag = sg.popup_ok_cancel(f'{self.game_list[i].name}を削除しますか？', font=[1, 20])
+                    del_flag = sg.popup_ok_cancel(f'{self.game_list[i].name}を削除しますか？', font=FONT_SIZE)
                     print(del_flag)
                     if del_flag == 'OK':
                         self.delete_game_data(self.game_list[i].name)
