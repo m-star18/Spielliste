@@ -12,6 +12,11 @@ from const import (
 class MainMenu:
     HEADINGS_NAME = ['ゲーム名', 'ジャンル', '発売年', '会社名']
     BUTTON_NAME = ['追加', '編集', '詳細', '削除', '検索', '再読込']
+    HARD_NAME = {'ファミコン': 'fc', 'スーパーファミコン': 'sfc', 'MSX': 'MSX', 'MSX2': 'MSX2',
+                 'ニンテンドー64': 'n64', 'ゲームボーイアドバンス': 'gba', 'pcエンジン': 'pce',
+                 'メガドライブ': 'md', 'ニンテンドーds': 'nds', 'ゲームキューブ': 'gc',
+                 'プレステーション': 'ps', 'psp': 'psp',
+                 }
 
     def __init__(self, number, sum_number, game_list, genre, date_birth, company):
         self.number = number * 10
@@ -53,7 +58,7 @@ class MainMenu:
                 button_color = ('black', 'white')
 
             layout += [
-                [sg.Image(game.hard, size=(50, 50)),
+                [sg.Image(f'assets/hard_icon/{self.HARD_NAME[game.hard]}.gif', size=(50, 50)),
                  sg.Button(game.name, size=(50, 1), font=FONT_SIZE, button_color=button_color, key=game.id),
                  sg.Text(game.genre, size=(18, 1), font=FONT_SIZE),
                  sg.Text(game.date_birth + '年', size=(18, 1), font=FONT_SIZE),
