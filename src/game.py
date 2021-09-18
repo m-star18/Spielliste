@@ -1,6 +1,7 @@
 import os
 import io
 import subprocess
+import uuid
 
 import PySimpleGUI as sg
 from PIL import Image, ImageTk
@@ -17,14 +18,18 @@ from const import (
 class GameData:
 
     def __init__(self, key, game_list):
-        self.name = key
-        self.genre = game_list[0]
-        self.date_birth = game_list[1]
-        self.company = game_list[2]
-        self.point = game_list[3]
-        self.image_site = game_list[4]
-        self.site = game_list[5]
-        self.exec_site = game_list[6]
+        self.id = key
+        self.name = game_list[0]
+        self.genre = game_list[1]
+        self.date_birth = game_list[2]
+        self.company = game_list[3]
+        self.point = game_list[4]
+        self.image_site = game_list[5]
+        self.site = game_list[6]
+        self.exec_site = game_list[7]
+
+        if self.id == '':
+            self.id = str(uuid.uuid4())
 
         if self.image_site == '':
             self.image_site = os.path.abspath('assets/no-image.png')
