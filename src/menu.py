@@ -53,7 +53,7 @@ class MainMenu:
                 button_color = ('black', 'white')
 
             layout += [
-                [sg.Button(game.name, size=(50, 1), font=FONT_SIZE, button_color=button_color),
+                [sg.Button(game.name, size=(50, 1), font=FONT_SIZE, button_color=button_color, key=game.id),
                  sg.Text(game.genre, size=(18, 1), font=FONT_SIZE),
                  sg.Text(game.date_birth + '年', size=(18, 1), font=FONT_SIZE),
                  sg.Text(game.company, size=(18, 1), font=FONT_SIZE),
