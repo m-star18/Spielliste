@@ -38,11 +38,12 @@ class App:
 
     def get_load_data(self):
         for key in sorted(self.save_data.keys()):
+            values = self.save_data.load(key)
             # Refine search
-            if self.search_word != key[:len(self.search_word)]:
+            if self.search_word != values[0][:len(self.search_word)]:
                 continue
 
-            for k, v in zip(self.keys, self.save_data.load(key)):
+            for k, v in zip(self.keys, values[1:]):
                 if k != '全て' and k != v:
                     break
             else:
@@ -115,33 +116,31 @@ class App:
             self.window.close()
             self.__init__()
 
-        for i in range(self.sum_number):
-            if event == self.game_list[i].name:
+        for game in self.game_list:
+            if event == game.id:
                 self.flag = event
-                self.window['INPUT'].update(f'{event}を選択中')
+                self.window['INPUT'].update(f'{game.name}を選択中')
 
-            elif self.flag == self.game_list[i].name:
+            elif self.flag == game.id:
                 if event == '詳細':
                     self.flag = None
-                    window = self.game_list[i].details_menu()
-                    self.game_list[i].update_details(window)
+                    window = game.details_menu()
+                    game.update_details(window)
 
                 elif event == '削除':
-                    del_flag = sg.popup_ok_cancel(f'{self.game_list[i].name}を削除しますか？', font=FONT_SIZE)
-                    print(del_flag)
+                    del_flag = sg.popup_ok_cancel(f'{game.name}を削除しますか？', font=FONT_SIZE)
                     if del_flag == 'OK':
-                        self.delete_game_data(self.game_list[i].name)
+                        self.delete_game_data(game.name)
                     # Keep the program closed for a safe screen transition.
                     return
 
                 elif event == '編集':
                     self.flag = None
-                    window = self.game_list[i].add_menu()
-                    key = self.game_list[i].update_data(window)
+                    window = game.add_menu()
+                    key = game.update_data(window)
 
                     if key:
-                        if key[0] != self.game_list[i].name:
-                            self.delete_game_data(self.game_list[i].name)
+                        key = [game.id] + key
                         self.add_game_data(key)
                         # Keep the program closed for a safe screen transition.
                         return
@@ -152,6 +151,7 @@ class App:
             key = new_game_data.update_data(window)
 
             if key:
+                key = [new_game_data.id] + key
                 self.add_game_data(key)
                 return
 
