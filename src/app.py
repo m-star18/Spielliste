@@ -7,6 +7,7 @@ from const import (
     GENRE_NAME_DATA_NUMBER,
     DATE_BIRTH_DATA_NUMBER,
     COMPANY_NAME_DATA_NUMBER,
+    HARD_DATA_NUMBER,
     NUMBER_DATA_PER,
     FONT_SIZE,
 )
@@ -16,7 +17,7 @@ class App:
 
     def __init__(self, number=0, keys=None, word=''):
         if keys is None:
-            keys = ['全て'] * 3
+            keys = ['全て'] * 4
 
         Saves.current_dbname = 'spielliste'
         self.save_data = Saves()
@@ -44,7 +45,8 @@ class App:
                 continue
 
             for k, v in zip(self.keys, values[1:]):
-                if k != '全て' and k != v:
+                # "hard" is the last thing on your mind.
+                if k != '全て' and k != v and k != values[-1]:
                     break
             else:
                 self.game_list.append(GameData(key, self.save_data.load(key)))
@@ -100,6 +102,9 @@ class App:
         elif event == COMPANY_NAME_DATA_NUMBER:
             self.keys[2] = values[COMPANY_NAME_DATA_NUMBER]
 
+        elif event == HARD_DATA_NUMBER:
+            self.keys[3] = values[HARD_DATA_NUMBER]
+
         elif event == 'search':
             self.search_word = values[0]
             self.reload_game_data()
@@ -116,9 +121,13 @@ class App:
             self.window.close()
             self.__init__()
 
+        # When narrowing down the list, the value becomes an integer.
+        if type(event) is int:
+            return
+
         for game in self.game_list:
-            if event == game.id:
-                self.flag = event
+            if event[:-1] == game.id:
+                self.flag = event[:-1]
                 self.window['INPUT'].update(f'{game.name}を選択中')
 
             elif self.flag == game.id:
@@ -130,7 +139,7 @@ class App:
                 elif event == '削除':
                     del_flag = sg.popup_ok_cancel(f'{game.name}を削除しますか？', font=FONT_SIZE)
                     if del_flag == 'OK':
-                        self.delete_game_data(game.name)
+                        self.delete_game_data(game.id)
                     # Keep the program closed for a safe screen transition.
                     return
 

@@ -1,21 +1,27 @@
 import os
-import io
 import subprocess
 import uuid
 
 import PySimpleGUI as sg
-from PIL import Image, ImageTk
+from PIL import Image
 
+from image_resize import get_img_data
 from const import (
     FONT_SIZE,
     NUMBER_DATA_PER,
     IMAGE_DATA_NUMBER,
     SITE_DATA_NUMBER,
-    EXEC_DATA_NUMBER
+    EXEC_DATA_NUMBER,
+    HARD_DATA_NUMBER,
 )
 
 
 class GameData:
+    HARD_NAME = {'ファミコン': 'fc', 'スーパーファミコン': 'sfc', 'MSX': 'MSX', 'MSX2': 'MSX2',
+                 'ニンテンドー64': 'n64', 'ゲームボーイアドバンス': 'gba', 'pcエンジン': 'pce',
+                 'メガドライブ': 'md', 'ニンテンドーds': 'nds', 'ゲームキューブ': 'gc',
+                 'プレステーション': 'ps', 'psp': 'psp',
+                 }
 
     def __init__(self, key, game_list):
         self.id = key
@@ -27,6 +33,7 @@ class GameData:
         self.image_site = game_list[5]
         self.site = game_list[6]
         self.exec_site = game_list[7]
+        self.hard = game_list[8]
 
         if self.id == '':
             self.id = str(uuid.uuid4())
@@ -41,19 +48,6 @@ class GameData:
         if self.exec_site == '':
             self.exec_site = 'exec'
 
-    def get_img_data(self, maxsize=(500, 500), first=False):
-        """
-        Generate image data using PIL
-        """
-        self.image = Image.open(self.image_site)
-        self.image.thumbnail(maxsize)
-        if first:  # tkinter is inactive the first time
-            bio = io.BytesIO()
-            self.image.save(bio, format="PNG")
-            del self.image
-            return bio.getvalue()
-        return ImageTk.PhotoImage(self.image)
-
     def run_data(self, window):
         if self.site == 'site':
             window['site'].update('エラー: romファイルが指定されていません')
@@ -66,7 +60,13 @@ class GameData:
 
     def details_menu(self):
         layout_details = [
-            [sg.Image(data=self.get_img_data(first=True)),
+            [sg.Image(data=get_img_data(self.image_site, first=True)),
+             ],
+            [sg.Text('ハード', size=(10, 1), font=FONT_SIZE),
+             sg.Image(data=get_img_data(f'assets/hard_icon/{self.HARD_NAME[self.hard]}.png',
+                                        maxsize=(50, 50),
+                                        first=True)
+                      ),
              ],
             [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
              sg.Text(self.name, size=(50, 1), font=FONT_SIZE),
@@ -106,34 +106,48 @@ class GameData:
             add_key = 'edit'
 
         layout_add = [
+            [sg.Text('ハード', size=(10, 2), font=FONT_SIZE),
+             sg.Button(image_filename='assets/hard_icon/fc.png', image_size=(50, 50), key='ファミコン'),
+             sg.Button(image_filename='assets/hard_icon/sfc.png', image_size=(50, 50), key='スーパーファミコン'),
+             sg.Button(image_filename='assets/hard_icon/MSX.png', image_size=(50, 50), key='MSX'),
+             sg.Button(image_filename='assets/hard_icon/MSX2.png', image_size=(50, 50), key='MSX2'),
+             sg.Button(image_filename='assets/hard_icon/n64.png', image_size=(50, 50), key='ニンテンドー64'),
+             sg.Button(image_filename='assets/hard_icon/gba.png', image_size=(50, 50), key='ゲームボーイアドバンス'),
+             sg.Button(image_filename='assets/hard_icon/pce.png', image_size=(50, 50), key='pcエンジン'),
+             sg.Button(image_filename='assets/hard_icon/md.png', image_size=(50, 50), key='メガドライブ'),
+             sg.Button(image_filename='assets/hard_icon/nds.png', image_size=(50, 50), key='ニンテンドーds'),
+             sg.Button(image_filename='assets/hard_icon/gc.png', image_size=(50, 50), key='ゲームキューブ'),
+             sg.Button(image_filename='assets/hard_icon/ps.png', image_size=(50, 50), key='プレステーション'),
+             sg.Button(image_filename='assets/hard_icon/psp.png', image_size=(50, 50), key='psp'),
+             ],
             [sg.Text('タイトル', size=(10, 2), font=FONT_SIZE),
-             sg.Input(default_text=self.name, size=(50, 2), font=FONT_SIZE),
+             sg.Input(default_text=self.name, size=(58, 2), font=FONT_SIZE),
              ],
             [sg.Text('ジャンル', size=(10, 2), font=FONT_SIZE),
-             sg.InputCombo(default_value=self.genre, values=genre_data, size=(50, 1),
+             sg.InputCombo(default_value=self.genre, values=genre_data, size=(57, 1),
                            font=FONT_SIZE),
              ],
             [sg.Text('発売年', size=(10, 2), font=FONT_SIZE),
-             sg.Input(default_text=self.date_birth, size=(50, 2), font=FONT_SIZE),
+             sg.Input(default_text=self.date_birth, size=(58, 2), font=FONT_SIZE),
              ],
             [sg.Text('会社名', size=(10, 2), font=FONT_SIZE),
-             sg.InputCombo(default_value=self.company, values=company_name_data, size=(50, 1),
+             sg.InputCombo(default_value=self.company, values=company_name_data, size=(57, 1),
                            font=FONT_SIZE),
              ],
             [sg.Text('最高得点', size=(10, 2), font=FONT_SIZE),
-             sg.Input(default_text=self.point, size=(50, 2), font=FONT_SIZE),
+             sg.Input(default_text=self.point, size=(58, 2), font=FONT_SIZE),
              ],
-            [sg.FileBrowse(button_text='画像を選択してください', size=(60, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER,
+            [sg.FileBrowse(button_text='画像を選択してください', size=(67, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER,
                            file_types=(('Image Files', '*.png'),)),
              ],
-            [sg.FileBrowse(button_text='romファイルを選択してください', size=(60, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+            [sg.FileBrowse(button_text='romファイルを選択してください', size=(67, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
              ],
-            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(60, 1), font=FONT_SIZE, key=EXEC_DATA_NUMBER),
+            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(67, 1), font=FONT_SIZE, key=EXEC_DATA_NUMBER),
              ],
-            [sg.Button(button_text='追加', size=(30, 1), font=FONT_SIZE, key=add_key),
-             sg.CloseButton('戻る', size=(30, 1), font=FONT_SIZE, key='Exit'),
+            [sg.Button(button_text='追加', size=(32, 1), font=FONT_SIZE, key=add_key),
+             sg.CloseButton('戻る', size=(32, 1), font=FONT_SIZE, key='Exit'),
              ],
-            [sg.Text('', size=(60, 1), font=FONT_SIZE, key='INPUT')]
+            [sg.Text('', size=(68, 1), font=FONT_SIZE, key='INPUT')]
         ]
 
         return sg.Window('作成メニュー').Layout(layout_add)
@@ -141,9 +155,17 @@ class GameData:
     def update_data(self, window):
         while True:
             event, new_game_data = window.Read()
+            # print(event, new_game_data)
 
             if event is None or event == 'Exit':
                 break
+
+            # When hardware is selected
+            print(event)
+            if event != '追加' and event != 'edit':
+                self.hard = event
+                window['INPUT'].update(f'{self.hard}を入力しました')
+                continue
 
             if new_game_data[IMAGE_DATA_NUMBER] == '':
                 new_game_data[IMAGE_DATA_NUMBER] = self.image_site
@@ -155,13 +177,15 @@ class GameData:
                 new_game_data[EXEC_DATA_NUMBER] = self.exec_site
 
             # Don't require "site" to be entered.
-            for i in range(NUMBER_DATA_PER - 1):
+            # Reduce the number of loops by one since Hard is a button.
+            for i in range(NUMBER_DATA_PER - 2):
                 if new_game_data[i] == '':
                     window['INPUT'].update('入力忘れがあります')
                     break
 
             else:
                 window.close()
+                new_game_data[HARD_DATA_NUMBER] = self.hard
                 key = list(new_game_data.values())
                 return key
 
