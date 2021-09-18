@@ -1,11 +1,11 @@
 import os
-import io
 import subprocess
 import uuid
 
 import PySimpleGUI as sg
-from PIL import Image, ImageTk
+from PIL import Image
 
+from image_resize import get_img_data
 from const import (
     FONT_SIZE,
     NUMBER_DATA_PER,
@@ -48,19 +48,6 @@ class GameData:
         if self.exec_site == '':
             self.exec_site = 'exec'
 
-    def get_img_data(self, maxsize=(500, 500), first=False):
-        """
-        Generate image data using PIL
-        """
-        self.image = Image.open(self.image_site)
-        self.image.thumbnail(maxsize)
-        if first:  # tkinter is inactive the first time
-            bio = io.BytesIO()
-            self.image.save(bio, format="PNG")
-            del self.image
-            return bio.getvalue()
-        return ImageTk.PhotoImage(self.image)
-
     def run_data(self, window):
         if self.site == 'site':
             window['site'].update('エラー: romファイルが指定されていません')
@@ -73,10 +60,13 @@ class GameData:
 
     def details_menu(self):
         layout_details = [
-            [sg.Image(data=self.get_img_data(first=True)),
+            [sg.Image(data=get_img_data(self.image_site, first=True)),
              ],
             [sg.Text('ハード', size=(10, 1), font=FONT_SIZE),
-             sg.Image(filename=f'assets/hard_icon/{self.HARD_NAME[self.hard]}.png', size=(50, 50)),
+             sg.Image(data=get_img_data(f'assets/hard_icon/{self.HARD_NAME[self.hard]}.png',
+                                        maxsize=(50, 50),
+                                        first=True)
+                      ),
              ],
             [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
              sg.Text(self.name, size=(50, 1), font=FONT_SIZE),
@@ -171,7 +161,8 @@ class GameData:
                 break
 
             # When hardware is selected
-            if event != '追加':
+            print(event)
+            if event != '追加' and event != 'edit':
                 self.hard = event
                 window['INPUT'].update(f'{self.hard}を入力しました')
                 continue
