@@ -130,7 +130,7 @@ class App:
                 elif event == '削除':
                     del_flag = sg.popup_ok_cancel(f'{game.name}を削除しますか？', font=FONT_SIZE)
                     if del_flag == 'OK':
-                        self.delete_game_data(game.name)
+                        self.delete_game_data(game.id)
                     # Keep the program closed for a safe screen transition.
                     return
 
