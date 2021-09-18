@@ -47,7 +47,7 @@ class MainMenu:
         ]
 
         layout = [
-            [sg.Text(text='Spielliste v1.0.1', size=(49, 1), font=FONT_SIZE),
+            [sg.Text(text='Spielliste v1.0.1', size=(50, 1), font=FONT_SIZE),
              sg.Input(size=(30, 1), font=FONT_SIZE, default_text=input_text),
              sg.Button(button_text=self.BUTTON_NAME[4], size=(18, 1), font=FONT_SIZE, key='search'),
              sg.Button(button_text=self.BUTTON_NAME[5], size=(18, 1), font=FONT_SIZE),
