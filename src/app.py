@@ -121,9 +121,13 @@ class App:
             self.window.close()
             self.__init__()
 
+        # When narrowing down the list, the value becomes an integer.
+        if type(event) is int:
+            return
+
         for game in self.game_list:
-            if event == game.id:
-                self.flag = event
+            if event[:-1] == game.id:
+                self.flag = event[:-1]
                 self.window['INPUT'].update(f'{game.name}を選択中')
 
             elif self.flag == game.id:
