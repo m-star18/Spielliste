@@ -11,7 +11,8 @@ from const import (
     NUMBER_DATA_PER,
     IMAGE_DATA_NUMBER,
     SITE_DATA_NUMBER,
-    EXEC_DATA_NUMBER
+    EXEC_DATA_NUMBER,
+    HARD_DATA_NUMBER,
 )
 
 
@@ -27,6 +28,7 @@ class GameData:
         self.image_site = game_list[5]
         self.site = game_list[6]
         self.exec_site = game_list[7]
+        self.hard = game_list[8]
 
         if self.id == '':
             self.id = str(uuid.uuid4())
@@ -68,6 +70,9 @@ class GameData:
         layout_details = [
             [sg.Image(data=self.get_img_data(first=True)),
              ],
+            [sg.Text('ハード', size=(10, 1), font=FONT_SIZE),
+             sg.Image(filename=self.hard, size=(50, 50)),
+             ],
             [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
              sg.Text(self.name, size=(50, 1), font=FONT_SIZE),
              ],
@@ -107,17 +112,17 @@ class GameData:
 
         layout_add = [
             [sg.Text('ハード', size=(10, 2), font=FONT_SIZE),
-             sg.Button(image_filename='assets/hard_icon/fc.gif', image_size=(50, 50), key='fc'),
-             sg.Button(image_filename='assets/hard_icon/sfc.gif', image_size=(50, 50), key='sfc'),
-             sg.Button(image_filename='assets/hard_icon/MSX.gif', image_size=(50, 50), key='msx'),
-             sg.Button(image_filename='assets/hard_icon/MSX2.gif', image_size=(50, 50), key='msx2'),
-             sg.Button(image_filename='assets/hard_icon/n64.gif', image_size=(50, 50), key='n64'),
-             sg.Button(image_filename='assets/hard_icon/gba.gif', image_size=(50, 50), key='gba'),
-             sg.Button(image_filename='assets/hard_icon/pce.gif', image_size=(50, 50), key='pce'),
-             sg.Button(image_filename='assets/hard_icon/md.gif', image_size=(50, 50), key='md'),
-             sg.Button(image_filename='assets/hard_icon/nds.gif', image_size=(50, 50), key='nds'),
-             sg.Button(image_filename='assets/hard_icon/gc.gif', image_size=(50, 50), key='gc'),
-             sg.Button(image_filename='assets/hard_icon/ps.gif', image_size=(50, 50), key='ps'),
+             sg.Button(image_filename='assets/hard_icon/fc.gif', image_size=(50, 50), key='ファミコン'),
+             sg.Button(image_filename='assets/hard_icon/sfc.gif', image_size=(50, 50), key='スーパーファミコン'),
+             sg.Button(image_filename='assets/hard_icon/MSX.gif', image_size=(50, 50), key='MSX'),
+             sg.Button(image_filename='assets/hard_icon/MSX2.gif', image_size=(50, 50), key='MSX2'),
+             sg.Button(image_filename='assets/hard_icon/n64.gif', image_size=(50, 50), key='ニンテンドー64'),
+             sg.Button(image_filename='assets/hard_icon/gba.gif', image_size=(50, 50), key='ゲームボーイアドバンス'),
+             sg.Button(image_filename='assets/hard_icon/pce.gif', image_size=(50, 50), key='pcエンジン'),
+             sg.Button(image_filename='assets/hard_icon/md.gif', image_size=(50, 50), key='メガドライブ'),
+             sg.Button(image_filename='assets/hard_icon/nds.gif', image_size=(50, 50), key='ニンテンドーds'),
+             sg.Button(image_filename='assets/hard_icon/gc.gif', image_size=(50, 50), key='ゲームキューブ'),
+             sg.Button(image_filename='assets/hard_icon/ps.gif', image_size=(50, 50), key='プレステーション'),
              sg.Button(image_filename='assets/hard_icon/psp.gif', image_size=(50, 50), key='psp'),
              ],
             [sg.Text('タイトル', size=(10, 2), font=FONT_SIZE),
@@ -155,9 +160,16 @@ class GameData:
     def update_data(self, window):
         while True:
             event, new_game_data = window.Read()
+            # print(event, new_game_data)
 
             if event is None or event == 'Exit':
                 break
+
+            # When hardware is selected
+            if event != '追加':
+                self.hard = event
+                window['INPUT'].update(f'{self.hard}を入力しました')
+                continue
 
             if new_game_data[IMAGE_DATA_NUMBER] == '':
                 new_game_data[IMAGE_DATA_NUMBER] = self.image_site
@@ -176,6 +188,7 @@ class GameData:
 
             else:
                 window.close()
+                new_game_data[HARD_DATA_NUMBER] = self.hard
                 key = list(new_game_data.values())
                 return key
 
