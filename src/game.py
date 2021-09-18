@@ -17,6 +17,11 @@ from const import (
 
 
 class GameData:
+    HARD_NAME = {'ファミコン': 'fc', 'スーパーファミコン': 'sfc', 'MSX': 'MSX', 'MSX2': 'MSX2',
+                 'ニンテンドー64': 'n64', 'ゲームボーイアドバンス': 'gba', 'pcエンジン': 'pce',
+                 'メガドライブ': 'md', 'ニンテンドーds': 'nds', 'ゲームキューブ': 'gc',
+                 'プレステーション': 'ps', 'psp': 'psp',
+                 }
 
     def __init__(self, key, game_list):
         self.id = key
@@ -71,7 +76,7 @@ class GameData:
             [sg.Image(data=self.get_img_data(first=True)),
              ],
             [sg.Text('ハード', size=(10, 1), font=FONT_SIZE),
-             sg.Image(filename=self.hard, size=(50, 50)),
+             sg.Image(filename=f'assets/hard_icon/{self.HARD_NAME[self.hard]}.gif', size=(50, 50)),
              ],
             [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
              sg.Text(self.name, size=(50, 1), font=FONT_SIZE),
@@ -181,7 +186,8 @@ class GameData:
                 new_game_data[EXEC_DATA_NUMBER] = self.exec_site
 
             # Don't require "site" to be entered.
-            for i in range(NUMBER_DATA_PER - 1):
+            # Reduce the number of loops by one since Hard is a button.
+            for i in range(NUMBER_DATA_PER - 2):
                 if new_game_data[i] == '':
                     window['INPUT'].update('入力忘れがあります')
                     break
