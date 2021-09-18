@@ -58,7 +58,7 @@ class MainMenu:
                 button_color = ('black', 'white')
 
             layout += [
-                [sg.Image(f'assets/hard_icon/{self.HARD_NAME[game.hard]}.gif', size=(50, 50)),
+                [sg.Image(f'assets/hard_icon/{self.HARD_NAME[game.hard]}.png', size=(50, 50)),
                  sg.Button(game.name, size=(50, 1), font=FONT_SIZE, button_color=button_color, key=game.id),
                  sg.Text(game.genre, size=(18, 1), font=FONT_SIZE),
                  sg.Text(game.date_birth + '年', size=(18, 1), font=FONT_SIZE),
