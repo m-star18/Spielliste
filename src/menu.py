@@ -8,6 +8,7 @@ from const import (
     COMPANY_NAME_DATA_NUMBER,
     HARD_DATA_NUMBER,
     ONE_COLUMN_LENGTH,
+    TITLE,
 )
 
 
@@ -47,7 +48,7 @@ class MainMenu:
         ]
 
         layout = [
-            [sg.Text(text='Spielliste v1.1.0', size=(50, 1), font=FONT_SIZE),
+            [sg.Text(text=TITLE, size=(50, 1), font=FONT_SIZE),
              sg.Input(size=(30, 1), font=FONT_SIZE, default_text=input_text),
              sg.Button(button_text=self.BUTTON_NAME[4], size=(18, 1), font=FONT_SIZE, key='search'),
              sg.Button(button_text=self.BUTTON_NAME[5], size=(18, 1), font=FONT_SIZE),
@@ -101,4 +102,4 @@ class MainMenu:
                     sg.Text('', size=(80, 1), font=FONT_SIZE, key='INPUT')],
                    ]
 
-        return sg.Window('Spielliste v1.1.0').Layout(layout)
+        return sg.Window(TITLE).Layout(layout)
