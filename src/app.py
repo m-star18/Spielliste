@@ -3,7 +3,7 @@ from saves import Saves
 
 from game import GameData
 from menu import MainMenu
-from const import (
+from const.app import (
     GENRE_NAME_DATA_NUMBER,
     DATE_BIRTH_DATA_NUMBER,
     COMPANY_NAME_DATA_NUMBER,

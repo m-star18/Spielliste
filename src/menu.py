@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 
 from image_resize import get_img_data
-from const import (
+from const.app import (
     FONT_SIZE,
     GENRE_NAME_DATA_NUMBER,
     DATE_BIRTH_DATA_NUMBER,
