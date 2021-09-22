@@ -6,8 +6,9 @@ import PySimpleGUI as sg
 from PIL import Image
 
 from image_resize import get_img_data
-from const import (
+from const.app import (
     FONT_SIZE,
+    ICON_SIZE,
     NUMBER_DATA_PER,
     IMAGE_DATA_NUMBER,
     SITE_DATA_NUMBER,
@@ -22,6 +23,18 @@ class GameData:
                  'メガドライブ': 'md', 'ニンテンドーds': 'nds', 'ゲームキューブ': 'gc',
                  'プレステーション': 'ps', 'psp': 'psp',
                  }
+    # detail
+    DETAIL_GENRE_SIZE = (10, 1)
+    DETAIL_TEXT_SIZE = (50, 1)
+    DETAIL_BUTTON_SIZE = (30, 1)
+    DETAIL_SITE_SIZE = (60, 1)
+    # add_menu
+    MENU_GENRE_SIZE = (10, 2)
+    MENU_BROWSE_SIZE = (67, 1)
+    MENU_BUTTON_SIZE = (32, 1)
+    MENU_TEXT_GENRE_SIZE = (57, 1)
+    MENU_TEXT_INPUT_SIZE = (58, 2)
+    MENU_SITE_SIZE = (68, 1)
 
     def __init__(self, key, game_list):
         self.id = key
@@ -62,31 +75,31 @@ class GameData:
         layout_details = [
             [sg.Image(data=get_img_data(self.image_site, first=True)),
              ],
-            [sg.Text('ハード', size=(10, 1), font=FONT_SIZE),
+            [sg.Text('ハード', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Image(data=get_img_data(f'assets/hard_icon/{self.HARD_NAME[self.hard]}.png',
-                                        maxsize=(50, 50),
+                                        maxsize=ICON_SIZE,
                                         first=True)
                       ),
              ],
-            [sg.Text('ゲーム名', size=(10, 1), font=FONT_SIZE),
-             sg.Text(self.name, size=(50, 1), font=FONT_SIZE),
+            [sg.Text('ゲーム名', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.name, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('ジャンル', size=(10, 1), font=FONT_SIZE),
-             sg.Text(self.genre, size=(50, 1), font=FONT_SIZE),
+            [sg.Text('ジャンル', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.genre, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('発売年', size=(10, 1), font=FONT_SIZE),
-             sg.Text(f'{self.date_birth}年', size=(50, 1), font=FONT_SIZE),
+            [sg.Text('発売年', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(f'{self.date_birth}年', size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('会社名', size=(10, 1), font=FONT_SIZE),
-             sg.Text(self.company, size=(50, 1), font=FONT_SIZE),
+            [sg.Text('会社名', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.company, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('最高得点', size=(10, 1), font=FONT_SIZE),
-             sg.Text(self.point, size=(50, 1), font=FONT_SIZE),
+            [sg.Text('最高得点', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.point, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.CloseButton('戻る', size=(30, 1), font=FONT_SIZE, key='Exit'),
-             sg.Button(button_text='実行', size=(30, 1), font=FONT_SIZE),
+            [sg.CloseButton('戻る', size=self.DETAIL_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
+             sg.Button(button_text='実行', size=self.DETAIL_BUTTON_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('', size=(60, 1), font=FONT_SIZE, key='site'),
+            [sg.Text('', size=self.DETAIL_SITE_SIZE, font=FONT_SIZE, key='site'),
              ],
         ]
 
@@ -106,48 +119,50 @@ class GameData:
             add_key = 'edit'
 
         layout_add = [
-            [sg.Text('ハード', size=(10, 2), font=FONT_SIZE),
-             sg.Button(image_filename='assets/hard_icon/fc.png', image_size=(50, 50), key='ファミコン'),
-             sg.Button(image_filename='assets/hard_icon/sfc.png', image_size=(50, 50), key='スーパーファミコン'),
-             sg.Button(image_filename='assets/hard_icon/MSX.png', image_size=(50, 50), key='MSX'),
-             sg.Button(image_filename='assets/hard_icon/MSX2.png', image_size=(50, 50), key='MSX2'),
-             sg.Button(image_filename='assets/hard_icon/n64.png', image_size=(50, 50), key='ニンテンドー64'),
-             sg.Button(image_filename='assets/hard_icon/gba.png', image_size=(50, 50), key='ゲームボーイアドバンス'),
-             sg.Button(image_filename='assets/hard_icon/pce.png', image_size=(50, 50), key='pcエンジン'),
-             sg.Button(image_filename='assets/hard_icon/md.png', image_size=(50, 50), key='メガドライブ'),
-             sg.Button(image_filename='assets/hard_icon/nds.png', image_size=(50, 50), key='ニンテンドーds'),
-             sg.Button(image_filename='assets/hard_icon/gc.png', image_size=(50, 50), key='ゲームキューブ'),
-             sg.Button(image_filename='assets/hard_icon/ps.png', image_size=(50, 50), key='プレステーション'),
-             sg.Button(image_filename='assets/hard_icon/psp.png', image_size=(50, 50), key='psp'),
+            [sg.Text('ハード', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Button(image_filename='assets/hard_icon/fc.png', image_size=ICON_SIZE, key='ファミコン'),
+             sg.Button(image_filename='assets/hard_icon/sfc.png', image_size=ICON_SIZE, key='スーパーファミコン'),
+             sg.Button(image_filename='assets/hard_icon/MSX.png', image_size=ICON_SIZE, key='MSX'),
+             sg.Button(image_filename='assets/hard_icon/MSX2.png', image_size=ICON_SIZE, key='MSX2'),
+             sg.Button(image_filename='assets/hard_icon/n64.png', image_size=ICON_SIZE, key='ニンテンドー64'),
+             sg.Button(image_filename='assets/hard_icon/gba.png', image_size=ICON_SIZE, key='ゲームボーイアドバンス'),
+             sg.Button(image_filename='assets/hard_icon/pce.png', image_size=ICON_SIZE, key='pcエンジン'),
+             sg.Button(image_filename='assets/hard_icon/md.png', image_size=ICON_SIZE, key='メガドライブ'),
+             sg.Button(image_filename='assets/hard_icon/nds.png', image_size=ICON_SIZE, key='ニンテンドーds'),
+             sg.Button(image_filename='assets/hard_icon/gc.png', image_size=ICON_SIZE, key='ゲームキューブ'),
+             sg.Button(image_filename='assets/hard_icon/ps.png', image_size=ICON_SIZE, key='プレステーション'),
+             sg.Button(image_filename='assets/hard_icon/psp.png', image_size=ICON_SIZE, key='psp'),
              ],
-            [sg.Text('タイトル', size=(10, 2), font=FONT_SIZE),
-             sg.Input(default_text=self.name, size=(58, 2), font=FONT_SIZE),
+            [sg.Text('タイトル', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=self.name, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('ジャンル', size=(10, 2), font=FONT_SIZE),
-             sg.InputCombo(default_value=self.genre, values=genre_data, size=(57, 1),
+            [sg.Text('ジャンル', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.InputCombo(default_value=self.genre, values=genre_data, size=self.MENU_TEXT_GENRE_SIZE,
                            font=FONT_SIZE),
              ],
-            [sg.Text('発売年', size=(10, 2), font=FONT_SIZE),
-             sg.Input(default_text=self.date_birth, size=(58, 2), font=FONT_SIZE),
+            [sg.Text('発売年', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=self.date_birth, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('会社名', size=(10, 2), font=FONT_SIZE),
-             sg.InputCombo(default_value=self.company, values=company_name_data, size=(57, 1),
+            [sg.Text('会社名', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.InputCombo(default_value=self.company, values=company_name_data, size=self.MENU_TEXT_GENRE_SIZE,
                            font=FONT_SIZE),
              ],
-            [sg.Text('最高得点', size=(10, 2), font=FONT_SIZE),
-             sg.Input(default_text=self.point, size=(58, 2), font=FONT_SIZE),
+            [sg.Text('最高得点', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=self.point, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
-            [sg.FileBrowse(button_text='画像を選択してください', size=(67, 1), font=FONT_SIZE, key=IMAGE_DATA_NUMBER,
-                           file_types=(('Image Files', '*.png'),)),
+            [sg.FileBrowse(button_text='画像を選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
+                           key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),)),
              ],
-            [sg.FileBrowse(button_text='romファイルを選択してください', size=(67, 1), font=FONT_SIZE, key=SITE_DATA_NUMBER),
+            [sg.FileBrowse(button_text='romファイルを選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
+                           key=SITE_DATA_NUMBER),
              ],
-            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=(67, 1), font=FONT_SIZE, key=EXEC_DATA_NUMBER),
+            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
+                           key=EXEC_DATA_NUMBER),
              ],
-            [sg.Button(button_text='追加', size=(32, 1), font=FONT_SIZE, key=add_key),
-             sg.CloseButton('戻る', size=(32, 1), font=FONT_SIZE, key='Exit'),
+            [sg.Button(button_text='追加', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
+             sg.CloseButton('戻る', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              ],
-            [sg.Text('', size=(68, 1), font=FONT_SIZE, key='INPUT')]
+            [sg.Text('', size=self.MENU_SITE_SIZE, font=FONT_SIZE, key='INPUT')]
         ]
 
         return sg.Window('作成メニュー').Layout(layout_add)
