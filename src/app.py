@@ -1,4 +1,6 @@
 import PySimpleGUI as sg
+import operator
+
 from saves import Saves
 
 from game import GameData
@@ -38,8 +40,12 @@ class App:
                                ).show(self.search_word)
 
     def get_load_data(self):
-        for key in sorted(self.save_data.keys()):
-            values = self.save_data.load(key)
+        load_data = [[key] + self.save_data.load(key) for key in self.save_data.keys()]
+        # sorted by [hard -> name -> genre -> company -> date]
+        load_data = sorted(load_data, key=operator.itemgetter(9, 1, 2, 4, 3))
+        for data in load_data:
+            key = data[0]
+            values = data[1:]
             # Refine search
             if self.search_word != values[0][:len(self.search_word)]:
                 continue
