@@ -31,12 +31,12 @@ class GameData:
     DETAIL_SITE_SIZE = (60, 1)
     # add_menu
     MENU_GENRE_SIZE = (10, 2)
-    MENU_BROWSE_SIZE = (67, 1)
-    MENU_BUTTON_SIZE = (32, 1)
-    MENU_TEXT_GENRE_SIZE = (57, 1)
-    MENU_TEXT_INPUT_SIZE = (58, 2)
-    MENU_DATE_INPUT_SIZE = (19, 2)
-    MENU_SITE_SIZE = (68, 1)
+    MENU_BROWSE_SIZE = (40, 1)
+    MENU_BUTTON_SIZE = (20, 1)
+    MENU_TEXT_GENRE_SIZE = (27, 1)
+    MENU_TEXT_INPUT_SIZE = (28, 2)
+    MENU_DATE_INPUT_SIZE = (8, 2)
+    MENU_SITE_SIZE = (41, 1)
 
     def __init__(self, key, game_list):
         self.id = key
@@ -134,6 +134,7 @@ class GameData:
 
             else:
                 button_color = ('black', 'white')
+
             if i % 2 == 0:
                 hard_layout1.append(sg.Button(image_filename=f'assets/hard_icon/{value}.png', image_size=ICON_SIZE,
                                               key=key, button_color=button_color))
@@ -186,35 +187,39 @@ class GameData:
         self.add_menu(genre, company)
         while True:
             event, new_game_data = self.window.Read()
-            # print(event, new_game_data)
+            print(event, new_game_data)
 
-            # Button select
             new_game_data[HARD_DATA_NUMBER] = self.hard
 
             if event is None or event == 'Exit':
                 break
 
-            if (new_game_data[DATE_BIRTH_DATA_NUMBER].isdigit() and
-                    new_game_data["month"].isdigit() and new_game_data["day"].isdigit()):
-                new_game_data[DATE_BIRTH_DATA_NUMBER] = (f'{new_game_data[DATE_BIRTH_DATA_NUMBER]}/'
-                                                         f'{new_game_data.pop("month")}/'
-                                                         f'{new_game_data.pop("day")}')
-            else:
-                self.window.close()
-                # delete from dict
-                new_game_data.pop("month")
-                new_game_data.pop("day")
-                self.__init__(self.id, list(new_game_data.values()))
-                self.add_menu(genre, company, input_txt='エラー: 整数を入力してください')
-                continue
-
             # When hardware is selected
             if event != '追加' and event != 'edit':
+                # Button select
                 self.hard = event
+                new_game_data[HARD_DATA_NUMBER] = self.hard
+                new_game_data.pop("month")
+                new_game_data.pop("day")
+
                 self.window.close()
                 self.__init__(self.id, list(new_game_data.values()))
                 self.add_menu(genre, company, input_txt=f'{self.hard}を入力しました')
                 continue
+
+            if not (new_game_data[DATE_BIRTH_DATA_NUMBER].isdigit() and
+                    new_game_data["month"].isdigit() and new_game_data["day"].isdigit()):
+                new_game_data.pop("month")
+                new_game_data.pop("day")
+
+                self.window.close()
+                self.__init__(self.id, list(new_game_data.values()))
+                self.add_menu(genre, company, input_txt='エラー: 整数を入力してください')
+                continue
+
+            new_game_data[DATE_BIRTH_DATA_NUMBER] = (f'{new_game_data[DATE_BIRTH_DATA_NUMBER]}/'
+                                                     f'{new_game_data.pop("month")}/'
+                                                     f'{new_game_data.pop("day")}')
 
             if new_game_data[IMAGE_DATA_NUMBER] == '':
                 new_game_data[IMAGE_DATA_NUMBER] = self.image_site
