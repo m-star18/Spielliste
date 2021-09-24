@@ -125,19 +125,25 @@ class GameData:
         else:
             add_key = 'edit'
 
-        hard_layout = [sg.Text('ハード', size=self.MENU_GENRE_SIZE, font=FONT_SIZE)]
+        hard_layout1 = [sg.Text('ハード', size=self.MENU_GENRE_SIZE, font=FONT_SIZE)]
+        hard_layout2 = [sg.Text('', size=self.MENU_GENRE_SIZE, font=FONT_SIZE)]
 
-        for key, value in self.HARD_NAME.items():
+        for i, (key, value) in enumerate(self.HARD_NAME.items()):
             if self.hard == key:
                 button_color = ('white', 'black')
 
             else:
                 button_color = ('black', 'white')
-            hard_layout.append(sg.Button(image_filename=f'assets/hard_icon/{value}.png', image_size=ICON_SIZE,
-                                         key=key, button_color=button_color))
+            if i % 2 == 0:
+                hard_layout1.append(sg.Button(image_filename=f'assets/hard_icon/{value}.png', image_size=ICON_SIZE,
+                                              key=key, button_color=button_color))
+            else:
+                hard_layout2.append(sg.Button(image_filename=f'assets/hard_icon/{value}.png', image_size=ICON_SIZE,
+                                              key=key, button_color=button_color))
 
         layout_add = [
-            hard_layout,
+            hard_layout1,
+            hard_layout2,
             [sg.Text('タイトル', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
              sg.Input(default_text=self.name, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
