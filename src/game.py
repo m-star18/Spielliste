@@ -105,7 +105,7 @@ class GameData:
 
         return sg.Window(f'{self.name}の詳細').Layout(layout_details)
 
-    def add_menu(self):
+    def add_menu(self, input_txt=''):
         genre_data = ['シューティング', 'アクション', 'アドベンチャー', 'ロールプレイング', 'パズル',
                       'レース', 'シュミレーション', 'スポーツ', 'オープンワールド', 'ボード',
                       ]
@@ -118,21 +118,19 @@ class GameData:
         else:
             add_key = 'edit'
 
+        hard_layout = [sg.Text('ハード', size=self.MENU_GENRE_SIZE, font=FONT_SIZE)]
+
+        for key, value in self.HARD_NAME.items():
+            if self.hard == key:
+                button_color = ('white', 'black')
+
+            else:
+                button_color = ('black', 'white')
+            hard_layout.append(sg.Button(image_filename=f'assets/hard_icon/{value}.png', image_size=ICON_SIZE,
+                                         key=key, button_color=button_color))
+
         layout_add = [
-            [sg.Text('ハード', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
-             sg.Button(image_filename='assets/hard_icon/fc.png', image_size=ICON_SIZE, key='ファミコン'),
-             sg.Button(image_filename='assets/hard_icon/sfc.png', image_size=ICON_SIZE, key='スーパーファミコン'),
-             sg.Button(image_filename='assets/hard_icon/MSX.png', image_size=ICON_SIZE, key='MSX'),
-             sg.Button(image_filename='assets/hard_icon/MSX2.png', image_size=ICON_SIZE, key='MSX2'),
-             sg.Button(image_filename='assets/hard_icon/n64.png', image_size=ICON_SIZE, key='ニンテンドー64'),
-             sg.Button(image_filename='assets/hard_icon/gba.png', image_size=ICON_SIZE, key='ゲームボーイアドバンス'),
-             sg.Button(image_filename='assets/hard_icon/pce.png', image_size=ICON_SIZE, key='pcエンジン'),
-             sg.Button(image_filename='assets/hard_icon/md.png', image_size=ICON_SIZE, key='メガドライブ'),
-             sg.Button(image_filename='assets/hard_icon/nds.png', image_size=ICON_SIZE, key='ニンテンドーds'),
-             sg.Button(image_filename='assets/hard_icon/gc.png', image_size=ICON_SIZE, key='ゲームキューブ'),
-             sg.Button(image_filename='assets/hard_icon/ps.png', image_size=ICON_SIZE, key='プレステーション'),
-             sg.Button(image_filename='assets/hard_icon/psp.png', image_size=ICON_SIZE, key='psp'),
-             ],
+            hard_layout,
             [sg.Text('タイトル', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
              sg.Input(default_text=self.name, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
@@ -162,24 +160,25 @@ class GameData:
             [sg.Button(button_text='追加', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
              sg.CloseButton('戻る', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              ],
-            [sg.Text('', size=self.MENU_SITE_SIZE, font=FONT_SIZE, key='INPUT')]
+            [sg.Text(input_txt, size=self.MENU_SITE_SIZE, font=FONT_SIZE, key='INPUT')]
         ]
 
-        return sg.Window('作成メニュー').Layout(layout_add)
+        self.window = sg.Window('作成メニュー').Layout(layout_add)
 
-    def update_data(self, window):
+    def update_data(self):
+        self.add_menu()
         while True:
-            event, new_game_data = window.Read()
+            event, new_game_data = self.window.Read()
             # print(event, new_game_data)
 
             if event is None or event == 'Exit':
                 break
 
             # When hardware is selected
-            print(event)
             if event != '追加' and event != 'edit':
                 self.hard = event
-                window['INPUT'].update(f'{self.hard}を入力しました')
+                self.window.close()
+                self.add_menu(input_txt=f'{self.hard}を入力しました')
                 continue
 
             if new_game_data[IMAGE_DATA_NUMBER] == '':
@@ -195,11 +194,12 @@ class GameData:
             # Reduce the number of loops by one since Hard is a button.
             for i in range(NUMBER_DATA_PER - 2):
                 if new_game_data[i] == '':
-                    window['INPUT'].update('入力忘れがあります')
+                    self.window.close()
+                    self.add_menu(input_txt='入力忘れがあります')
                     break
 
             else:
-                window.close()
+                self.window.close()
                 new_game_data[HARD_DATA_NUMBER] = self.hard
                 key = list(new_game_data.values())
                 return key

@@ -151,8 +151,7 @@ class App:
 
                 elif event == '編集':
                     self.flag = None
-                    window = game.add_menu()
-                    key = game.update_data(window)
+                    key = game.update_data()
 
                     if key:
                         key = [game.id] + key
@@ -162,8 +161,7 @@ class App:
 
         if event == '追加':
             new_game_data = GameData(edit_data[0], edit_data[1:])
-            window = new_game_data.add_menu()
-            key = new_game_data.update_data(window)
+            key = new_game_data.update_data()
 
             if key:
                 key = [new_game_data.id] + key
