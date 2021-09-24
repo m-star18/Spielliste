@@ -20,9 +20,9 @@ from const.app import (
 
 class GameData:
     HARD_NAME = {'ファミコン': 'fc', 'スーパーファミコン': 'sfc', 'MSX': 'MSX', 'MSX2': 'MSX2',
-                 'ニンテンドー64': 'n64', 'ゲームボーイアドバンス': 'gba', 'pcエンジン': 'pce',
-                 'メガドライブ': 'md', 'ニンテンドーds': 'nds', 'ゲームキューブ': 'gc',
-                 'プレステーション': 'ps', 'psp': 'psp',
+                 'ニンテンドー64': 'n64', 'ゲームボーイアドバンス': 'gba', 'PCエンジン': 'pce',
+                 'メガドライブ': 'md', 'ニンテンドーDS': 'nds', 'ゲームキューブ': 'gc',
+                 'プレステーション': 'ps', 'PSP': 'psp',
                  }
     # detail
     DETAIL_GENRE_SIZE = (10, 1)
