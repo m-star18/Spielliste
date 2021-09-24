@@ -105,11 +105,9 @@ class GameData:
 
         return sg.Window(f'{self.name}の詳細').Layout(layout_details)
 
-    def add_menu(self, input_txt=''):
-        genre_data = ['シューティング', 'アクション', 'アドベンチャー', 'ロールプレイング', 'パズル',
-                      'レース', 'シュミレーション', 'スポーツ', 'オープンワールド', 'ボード',
-                      ]
-        company_name_data = ['任天堂', 'コナミ', 'エニックス', 'ナムコ', 'ソニー']
+    def add_menu(self, genre, company, input_txt=''):
+        genre_data = sorted(list(set(genre)))
+        company_name_data = sorted(list(set(company)))
 
         # Edit and Add are determined by key
         if self.point == '':
@@ -165,8 +163,8 @@ class GameData:
 
         self.window = sg.Window('作成メニュー').Layout(layout_add)
 
-    def update_data(self):
-        self.add_menu()
+    def update_data(self, genre, company):
+        self.add_menu(genre, company)
         while True:
             event, new_game_data = self.window.Read()
             # print(event, new_game_data)
@@ -178,7 +176,7 @@ class GameData:
             if event != '追加' and event != 'edit':
                 self.hard = event
                 self.window.close()
-                self.add_menu(input_txt=f'{self.hard}を入力しました')
+                self.add_menu(genre, company, input_txt=f'{self.hard}を入力しました')
                 continue
 
             if new_game_data[IMAGE_DATA_NUMBER] == '':
@@ -195,7 +193,7 @@ class GameData:
             for i in range(NUMBER_DATA_PER - 2):
                 if new_game_data[i] == '':
                     self.window.close()
-                    self.add_menu(input_txt='入力忘れがあります')
+                    self.add_menu(genre, company, input_txt='入力忘れがあります')
                     break
 
             else:

@@ -151,7 +151,7 @@ class App:
 
                 elif event == '編集':
                     self.flag = None
-                    key = game.update_data()
+                    key = game.update_data(self.get_genre_data(), self.get_company_data())
 
                     if key:
                         key = [game.id] + key
@@ -161,7 +161,7 @@ class App:
 
         if event == '新規':
             new_game_data = GameData(edit_data[0], edit_data[1:])
-            key = new_game_data.update_data()
+            key = new_game_data.update_data(self.get_genre_data(), self.get_company_data())
 
             if key:
                 key = [new_game_data.id] + key
