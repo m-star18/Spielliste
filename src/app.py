@@ -151,7 +151,7 @@ class App:
 
                 elif event == '編集':
                     self.flag = None
-                    key = game.update_data()
+                    key = game.update_data(self.get_genre_data(), self.get_company_data())
 
                     if key:
                         key = [game.id] + key
@@ -159,14 +159,14 @@ class App:
                         # Keep the program closed for a safe screen transition.
                         return
 
-        if event == '追加':
+        if event == '新規':
             new_game_data = GameData(edit_data[0], edit_data[1:])
-            key = new_game_data.update_data()
+            key = new_game_data.update_data(self.get_genre_data(), self.get_company_data())
 
             if key:
                 key = [new_game_data.id] + key
                 self.add_game_data(key)
                 return
 
-        elif event == '詳細' or event == '追加' or event == '編集' or event == '削除':
+        elif event == '詳細' or event == '新規' or event == '編集' or event == '削除':
             self.window['INPUT'].update('ゲームを選択してください')
