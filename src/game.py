@@ -10,6 +10,7 @@ from const.app import (
     FONT_SIZE,
     ICON_SIZE,
     NUMBER_DATA_PER,
+    DATE_BIRTH_DATA_NUMBER,
     IMAGE_DATA_NUMBER,
     SITE_DATA_NUMBER,
     EXEC_DATA_NUMBER,
@@ -34,6 +35,7 @@ class GameData:
     MENU_BUTTON_SIZE = (32, 1)
     MENU_TEXT_GENRE_SIZE = (57, 1)
     MENU_TEXT_INPUT_SIZE = (58, 2)
+    MENU_DATE_INPUT_SIZE = (19, 2)
     MENU_SITE_SIZE = (68, 1)
 
     def __init__(self, key, game_list):
@@ -87,8 +89,8 @@ class GameData:
             [sg.Text('ジャンル', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Text(self.genre, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('発売年', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
-             sg.Text(f'{self.date_birth}年', size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
+            [sg.Text('発売日', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(f'{self.date_birth}', size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
             [sg.Text('会社名', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Text(self.company, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
@@ -106,8 +108,15 @@ class GameData:
         return sg.Window(f'{self.name}の詳細').Layout(layout_details)
 
     def add_menu(self, genre, company, input_txt=''):
+        # If the year and date are not entered
+        if self.date_birth == '':
+            self.date_birth = '//'
+        elif self.date_birth.count('/') != 2:
+            self.date_birth = '//'
+
         genre_data = sorted(list(set(genre)))
         company_name_data = sorted(list(set(company)))
+        year, month, day = self.date_birth.split('/')
 
         # Edit and Add are determined by key
         if self.point == '':
@@ -136,8 +145,12 @@ class GameData:
              sg.InputCombo(default_value=self.genre, values=genre_data, size=self.MENU_TEXT_GENRE_SIZE,
                            font=FONT_SIZE),
              ],
-            [sg.Text('発売年', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
-             sg.Input(default_text=self.date_birth, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
+            [sg.Text('発売日', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=year, size=self.MENU_DATE_INPUT_SIZE, font=FONT_SIZE),
+             sg.Text('/', font=FONT_SIZE),
+             sg.Input(default_text=month, size=self.MENU_DATE_INPUT_SIZE, font=FONT_SIZE, key='month'),
+             sg.Text('/', font=FONT_SIZE),
+             sg.Input(default_text=day, size=self.MENU_DATE_INPUT_SIZE, font=FONT_SIZE, key='day'),
              ],
             [sg.Text('会社名', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
              sg.InputCombo(default_value=self.company, values=company_name_data, size=self.MENU_TEXT_GENRE_SIZE,
@@ -169,13 +182,31 @@ class GameData:
             event, new_game_data = self.window.Read()
             # print(event, new_game_data)
 
+            # Button select
+            new_game_data[HARD_DATA_NUMBER] = self.hard
+
             if event is None or event == 'Exit':
                 break
+
+            if (new_game_data[DATE_BIRTH_DATA_NUMBER].isdigit() and
+                    new_game_data["month"].isdigit() and new_game_data["day"].isdigit()):
+                new_game_data[DATE_BIRTH_DATA_NUMBER] = (f'{new_game_data[DATE_BIRTH_DATA_NUMBER]}/'
+                                                         f'{new_game_data.pop("month")}/'
+                                                         f'{new_game_data.pop("day")}')
+            else:
+                self.window.close()
+                # delete from dict
+                new_game_data.pop("month")
+                new_game_data.pop("day")
+                self.__init__(self.id, list(new_game_data.values()))
+                self.add_menu(genre, company, input_txt='エラー: 整数を入力してください')
+                continue
 
             # When hardware is selected
             if event != '追加' and event != 'edit':
                 self.hard = event
                 self.window.close()
+                self.__init__(self.id, list(new_game_data.values()))
                 self.add_menu(genre, company, input_txt=f'{self.hard}を入力しました')
                 continue
 
@@ -193,12 +224,12 @@ class GameData:
             for i in range(NUMBER_DATA_PER - 2):
                 if new_game_data[i] == '':
                     self.window.close()
+                    self.__init__(self.id, list(new_game_data.values()))
                     self.add_menu(genre, company, input_txt='入力忘れがあります')
                     break
 
             else:
                 self.window.close()
-                new_game_data[HARD_DATA_NUMBER] = self.hard
                 key = list(new_game_data.values())
                 return key
 

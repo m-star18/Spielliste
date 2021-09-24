@@ -13,7 +13,7 @@ from const.app import (
 
 
 class MainMenu:
-    HEADINGS_NAME = ['ゲーム名', 'ジャンル', '発売年', '会社名', 'ハード名']
+    HEADINGS_NAME = ['ゲーム名', 'ジャンル', '発売日', '会社名', 'ハード名']
     BUTTON_NAME = ['新規', '編集', '詳細', '削除', '検索', '再読込']
     HARD_NAME = {'ファミコン': 'fc', 'スーパーファミコン': 'sfc', 'MSX': 'MSX', 'MSX2': 'MSX2',
                  'ニンテンドー64': 'n64', 'ゲームボーイアドバンス': 'gba', 'pcエンジン': 'pce',
@@ -84,7 +84,7 @@ class MainMenu:
                  sg.Text(size=self.SPACE_SIZE),
                  sg.Button(game.name, size=self.NAME_SIZE, font=FONT_SIZE, button_color=button_color, key=game.id),
                  sg.Text(game.genre, size=self.DEFAULT_SIZE, font=FONT_SIZE),
-                 sg.Text(game.date_birth + '年', size=self.DEFAULT_SIZE, font=FONT_SIZE),
+                 sg.Text(game.date_birth, size=self.DEFAULT_SIZE, font=FONT_SIZE),
                  sg.Text(game.company, size=self.DEFAULT_SIZE, font=FONT_SIZE),
                  ]
             ]
