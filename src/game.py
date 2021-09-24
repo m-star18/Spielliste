@@ -31,12 +31,12 @@ class GameData:
     DETAIL_SITE_SIZE = (60, 1)
     # add_menu
     MENU_GENRE_SIZE = (10, 2)
-    MENU_BROWSE_SIZE = (40, 1)
-    MENU_BUTTON_SIZE = (20, 1)
+    MENU_BROWSE_SIZE = (37, 1)
+    MENU_BUTTON_SIZE = (17, 1)
     MENU_TEXT_GENRE_SIZE = (27, 1)
     MENU_TEXT_INPUT_SIZE = (28, 2)
-    MENU_DATE_INPUT_SIZE = (8, 2)
-    MENU_SITE_SIZE = (41, 1)
+    MENU_DATE_INPUT_SIZE = (7, 2)
+    MENU_SITE_SIZE = (37, 1)
 
     def __init__(self, key, game_list):
         self.id = key
