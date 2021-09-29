@@ -123,7 +123,7 @@ class App:
         if event == 'next' or event == 'previous':
             self.change_page_number(event)
 
-        elif event == '再読込':
+        elif event == 'オールクリア':
             self.window.close()
             self.__init__()
 
