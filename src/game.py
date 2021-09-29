@@ -187,39 +187,36 @@ class GameData:
         self.add_menu(genre, company)
         while True:
             event, new_game_data = self.window.Read()
-            print(event, new_game_data)
+            # print(event, new_game_data)
 
             new_game_data[HARD_DATA_NUMBER] = self.hard
 
             if event is None or event == 'Exit':
                 break
 
+            if new_game_data[DATE_BIRTH_DATA_NUMBER] == '':
+                new_game_data[DATE_BIRTH_DATA_NUMBER] = '*'
+
+            if new_game_data["month"] == '':
+                new_game_data["month"] = '*'
+
+            if new_game_data["day"] == '':
+                new_game_data["day"] = '*'
+
+            new_game_data[DATE_BIRTH_DATA_NUMBER] = (f'{new_game_data[DATE_BIRTH_DATA_NUMBER]}/'
+                                                     f'{new_game_data.pop("month")}/'
+                                                     f'{new_game_data.pop("day")}')
+
             # When hardware is selected
             if event != '追加' and event != 'edit':
                 # Button select
                 self.hard = event
                 new_game_data[HARD_DATA_NUMBER] = self.hard
-                new_game_data.pop("month")
-                new_game_data.pop("day")
 
                 self.window.close()
                 self.__init__(self.id, list(new_game_data.values()))
                 self.add_menu(genre, company, input_txt=f'{self.hard}を入力しました')
                 continue
-
-            if not (new_game_data[DATE_BIRTH_DATA_NUMBER].isdigit() and
-                    new_game_data["month"].isdigit() and new_game_data["day"].isdigit()):
-                new_game_data.pop("month")
-                new_game_data.pop("day")
-
-                self.window.close()
-                self.__init__(self.id, list(new_game_data.values()))
-                self.add_menu(genre, company, input_txt='エラー: 整数を入力してください')
-                continue
-
-            new_game_data[DATE_BIRTH_DATA_NUMBER] = (f'{new_game_data[DATE_BIRTH_DATA_NUMBER]}/'
-                                                     f'{new_game_data.pop("month")}/'
-                                                     f'{new_game_data.pop("day")}')
 
             if new_game_data[IMAGE_DATA_NUMBER] == '':
                 new_game_data[IMAGE_DATA_NUMBER] = self.image_site
