@@ -121,7 +121,7 @@ class GameData:
         # Edit and Add are determined by key
         if self.point == '':
             self.point = '0'
-            add_key = '追加'
+            add_key = '保存'
         else:
             add_key = 'edit'
 
@@ -175,7 +175,7 @@ class GameData:
             [sg.FileBrowse(button_text='実行ファイルを選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
                            key=EXEC_DATA_NUMBER),
              ],
-            [sg.Button(button_text='追加', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
+            [sg.Button(button_text='保存', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
              sg.CloseButton('戻る', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              ],
             [sg.Text(input_txt, size=self.MENU_SITE_SIZE, font=FONT_SIZE, key='INPUT')]
@@ -208,7 +208,7 @@ class GameData:
                                                      f'{new_game_data.pop("day")}')
 
             # When hardware is selected
-            if event != '追加' and event != 'edit':
+            if event != '保存' and event != 'edit':
                 # Button select
                 self.hard = event
                 new_game_data[HARD_DATA_NUMBER] = self.hard
