@@ -53,15 +53,28 @@ class GameData:
         if self.id == '':
             self.id = str(uuid.uuid4())
 
-        if self.image_site == '':
+        # image button color. (highlight)
+        if self.image_site == '' or self.image_site == os.path.abspath('assets/no-image.png'):
             self.image_site = os.path.abspath('assets/no-image.png')
+            self.image_button_color = ('white', 'black')
+        else:
+            self.image_button_color = ('black', 'white')
+
         self.image = Image.open(self.image_site)
 
-        if self.site == '':
+        # site button color. (highlight)
+        if self.site == '' or self.site == 'site':
             self.site = 'site'
+            self.site_button_color = ('white', 'black')
+        else:
+            self.site_button_color = ('black', 'white')
 
-        if self.exec_site == '':
+        # exec site button color. (highlight)
+        if self.exec_site == '' or self.exec_site == 'exec':
             self.exec_site = 'exec'
+            self.exec_site_button_color = ('white', 'black')
+        else:
+            self.exec_site_button_color = ('black', 'white')
 
     def run_data(self, window):
         if self.site == 'site':
@@ -121,7 +134,7 @@ class GameData:
         # Edit and Add are determined by key
         if self.point == '':
             self.point = '0'
-            add_key = '追加'
+            add_key = '保存'
         else:
             add_key = 'edit'
 
@@ -130,10 +143,10 @@ class GameData:
 
         for i, (key, value) in enumerate(self.HARD_NAME.items()):
             if self.hard == key:
-                button_color = ('white', 'black')
+                button_color = ('black', 'white')
 
             else:
-                button_color = ('black', 'white')
+                button_color = ('white', 'black')
 
             if i % 2 == 0:
                 hard_layout1.append(sg.Button(image_filename=f'assets/hard_icon/{value}.png', image_size=ICON_SIZE,
@@ -167,15 +180,16 @@ class GameData:
              sg.Input(default_text=self.point, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
             [sg.FileBrowse(button_text='画像を選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
-                           key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),)),
+                           key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),),
+                           button_color=self.image_button_color),
              ],
             [sg.FileBrowse(button_text='romファイルを選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
-                           key=SITE_DATA_NUMBER),
+                           key=SITE_DATA_NUMBER, button_color=self.site_button_color),
              ],
             [sg.FileBrowse(button_text='実行ファイルを選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
-                           key=EXEC_DATA_NUMBER),
+                           key=EXEC_DATA_NUMBER, button_color=self.exec_site_button_color),
              ],
-            [sg.Button(button_text='追加', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
+            [sg.Button(button_text='保存', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
              sg.CloseButton('戻る', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              ],
             [sg.Text(input_txt, size=self.MENU_SITE_SIZE, font=FONT_SIZE, key='INPUT')]
@@ -207,17 +221,6 @@ class GameData:
                                                      f'{new_game_data.pop("month")}/'
                                                      f'{new_game_data.pop("day")}')
 
-            # When hardware is selected
-            if event != '追加' and event != 'edit':
-                # Button select
-                self.hard = event
-                new_game_data[HARD_DATA_NUMBER] = self.hard
-
-                self.window.close()
-                self.__init__(self.id, list(new_game_data.values()))
-                self.add_menu(genre, company, input_txt=f'{self.hard}を入力しました')
-                continue
-
             if new_game_data[IMAGE_DATA_NUMBER] == '':
                 new_game_data[IMAGE_DATA_NUMBER] = self.image_site
 
@@ -226,6 +229,17 @@ class GameData:
 
             if new_game_data[EXEC_DATA_NUMBER] == '':
                 new_game_data[EXEC_DATA_NUMBER] = self.exec_site
+
+            # When hardware is selected
+            if event != '保存' and event != 'edit':
+                # Button select
+                self.hard = event
+                new_game_data[HARD_DATA_NUMBER] = self.hard
+
+                self.window.close()
+                self.__init__(self.id, list(new_game_data.values()))
+                self.add_menu(genre, company, input_txt=f'{self.hard}を入力しました')
+                continue
 
             # Don't require "site" to be entered.
             # Reduce the number of loops by one since Hard is a button.
