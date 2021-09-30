@@ -101,15 +101,19 @@ class App:
     def change_key_check(self, event, values):
         if event == GENRE_NAME_DATA_NUMBER:
             self.keys[0] = values[GENRE_NAME_DATA_NUMBER]
+            self.reload_game_data()
 
         elif event == DATE_BIRTH_DATA_NUMBER:
             self.keys[1] = values[DATE_BIRTH_DATA_NUMBER]
+            self.reload_game_data()
 
         elif event == COMPANY_NAME_DATA_NUMBER:
             self.keys[2] = values[COMPANY_NAME_DATA_NUMBER]
+            self.reload_game_data()
 
         elif event == HARD_DATA_NUMBER:
             self.keys[3] = values[HARD_DATA_NUMBER]
+            self.reload_game_data()
 
         elif event == 'search':
             self.search_word = values[0]
