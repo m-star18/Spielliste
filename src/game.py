@@ -112,7 +112,7 @@ class GameData:
              sg.Text(self.point, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
             [sg.CloseButton('戻る', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
-             sg.Button(button_text='実行', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE),
+             sg.Button(button_text='Play', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE),
              ],
             [sg.Text('', size=DETAIL_SITE_SIZE, font=FONT_SIZE, key='site'),
              ],
