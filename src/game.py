@@ -16,6 +16,19 @@ from const.app import (
     EXEC_DATA_NUMBER,
     HARD_DATA_NUMBER,
 )
+from const.settings import (
+    DETAIL_GENRE_SIZE,
+    DETAIL_TEXT_SIZE,
+    DETAIL_BUTTON_SIZE,
+    DETAIL_SITE_SIZE,
+    MENU_GENRE_SIZE,
+    MENU_BROWSE_SIZE,
+    MENU_BUTTON_SIZE,
+    MENU_TEXT_GENRE_SIZE,
+    MENU_TEXT_INPUT_SIZE,
+    MENU_DATE_INPUT_SIZE,
+    MENU_SITE_SIZE,
+)
 
 
 class GameData:
@@ -24,19 +37,6 @@ class GameData:
                  'メガドライブ': 'md', 'ニンテンドーDS': 'nds', 'ゲームキューブ': 'gc',
                  'プレステーション': 'ps', 'PSP': 'psp',
                  }
-    # detail
-    DETAIL_GENRE_SIZE = (10, 1)
-    DETAIL_TEXT_SIZE = (50, 1)
-    DETAIL_BUTTON_SIZE = (30, 1)
-    DETAIL_SITE_SIZE = (60, 1)
-    # add_menu
-    MENU_GENRE_SIZE = (10, 2)
-    MENU_BROWSE_SIZE = (37, 1)
-    MENU_BUTTON_SIZE = (17, 1)
-    MENU_TEXT_GENRE_SIZE = (27, 1)
-    MENU_TEXT_INPUT_SIZE = (28, 2)
-    MENU_DATE_INPUT_SIZE = (7, 2)
-    MENU_SITE_SIZE = (37, 1)
 
     def __init__(self, key, game_list):
         self.id = key
@@ -90,31 +90,31 @@ class GameData:
         layout_details = [
             [sg.Image(data=get_img_data(self.image_site, first=True)),
              ],
-            [sg.Text('ハード', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
+            [sg.Text('ハード', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Image(data=get_img_data(f'assets/hard_icon/{self.HARD_NAME[self.hard]}.png',
                                         maxsize=ICON_SIZE,
                                         first=True)
                       ),
              ],
-            [sg.Text('ゲーム名', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
-             sg.Text(self.name, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
+            [sg.Text('ゲーム名', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.name, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('ジャンル', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
-             sg.Text(self.genre, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
+            [sg.Text('ジャンル', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.genre, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('発売日', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
-             sg.Text(f'{self.date_birth}', size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
+            [sg.Text('発売日', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(f'{self.date_birth}', size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('会社名', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
-             sg.Text(self.company, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
+            [sg.Text('会社名', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.company, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('最高得点', size=self.DETAIL_GENRE_SIZE, font=FONT_SIZE),
-             sg.Text(self.point, size=self.DETAIL_TEXT_SIZE, font=FONT_SIZE),
+            [sg.Text('最高得点', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.point, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
-            [sg.CloseButton('戻る', size=self.DETAIL_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
-             sg.Button(button_text='実行', size=self.DETAIL_BUTTON_SIZE, font=FONT_SIZE),
+            [sg.CloseButton('戻る', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
+             sg.Button(button_text='実行', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('', size=self.DETAIL_SITE_SIZE, font=FONT_SIZE, key='site'),
+            [sg.Text('', size=DETAIL_SITE_SIZE, font=FONT_SIZE, key='site'),
              ],
         ]
 
@@ -138,8 +138,8 @@ class GameData:
         else:
             add_key = 'edit'
 
-        hard_layout1 = [sg.Text('ハード', size=self.MENU_GENRE_SIZE, font=FONT_SIZE)]
-        hard_layout2 = [sg.Text('', size=self.MENU_GENRE_SIZE, font=FONT_SIZE)]
+        hard_layout1 = [sg.Text('ハード', size=MENU_GENRE_SIZE, font=FONT_SIZE)]
+        hard_layout2 = [sg.Text('', size=MENU_GENRE_SIZE, font=FONT_SIZE)]
 
         for i, (key, value) in enumerate(self.HARD_NAME.items()):
             if self.hard == key:
@@ -158,41 +158,41 @@ class GameData:
         layout_add = [
             hard_layout1,
             hard_layout2,
-            [sg.Text('タイトル', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
-             sg.Input(default_text=self.name, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
+            [sg.Text('タイトル', size=MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=self.name, size=MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('ジャンル', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
-             sg.InputCombo(default_value=self.genre, values=genre_data, size=self.MENU_TEXT_GENRE_SIZE,
+            [sg.Text('ジャンル', size=MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.InputCombo(default_value=self.genre, values=genre_data, size=MENU_TEXT_GENRE_SIZE,
                            font=FONT_SIZE),
              ],
-            [sg.Text('発売日', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
-             sg.Input(default_text=year, size=self.MENU_DATE_INPUT_SIZE, font=FONT_SIZE),
+            [sg.Text('発売日', size=MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=year, size=MENU_DATE_INPUT_SIZE, font=FONT_SIZE),
              sg.Text('/', font=FONT_SIZE),
-             sg.Input(default_text=month, size=self.MENU_DATE_INPUT_SIZE, font=FONT_SIZE, key='month'),
+             sg.Input(default_text=month, size=MENU_DATE_INPUT_SIZE, font=FONT_SIZE, key='month'),
              sg.Text('/', font=FONT_SIZE),
-             sg.Input(default_text=day, size=self.MENU_DATE_INPUT_SIZE, font=FONT_SIZE, key='day'),
+             sg.Input(default_text=day, size=MENU_DATE_INPUT_SIZE, font=FONT_SIZE, key='day'),
              ],
-            [sg.Text('会社名', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
-             sg.InputCombo(default_value=self.company, values=company_name_data, size=self.MENU_TEXT_GENRE_SIZE,
+            [sg.Text('会社名', size=MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.InputCombo(default_value=self.company, values=company_name_data, size=MENU_TEXT_GENRE_SIZE,
                            font=FONT_SIZE),
              ],
-            [sg.Text('最高得点', size=self.MENU_GENRE_SIZE, font=FONT_SIZE),
-             sg.Input(default_text=self.point, size=self.MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
+            [sg.Text('最高得点', size=MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=self.point, size=MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
-            [sg.FileBrowse(button_text='画像を選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
+            [sg.FileBrowse(button_text='画像を選択してください', size=MENU_BROWSE_SIZE, font=FONT_SIZE,
                            key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),),
                            button_color=self.image_button_color),
              ],
-            [sg.FileBrowse(button_text='romファイルを選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
+            [sg.FileBrowse(button_text='romファイルを選択してください', size=MENU_BROWSE_SIZE, font=FONT_SIZE,
                            key=SITE_DATA_NUMBER, button_color=self.site_button_color),
              ],
-            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=self.MENU_BROWSE_SIZE, font=FONT_SIZE,
+            [sg.FileBrowse(button_text='実行ファイルを選択してください', size=MENU_BROWSE_SIZE, font=FONT_SIZE,
                            key=EXEC_DATA_NUMBER, button_color=self.exec_site_button_color),
              ],
-            [sg.Button(button_text='保存', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
-             sg.CloseButton('戻る', size=self.MENU_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
+            [sg.Button(button_text='保存', size=MENU_BUTTON_SIZE, font=FONT_SIZE, key=add_key),
+             sg.CloseButton('戻る', size=MENU_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              ],
-            [sg.Text(input_txt, size=self.MENU_SITE_SIZE, font=FONT_SIZE, key='INPUT')]
+            [sg.Text(input_txt, size=MENU_SITE_SIZE, font=FONT_SIZE, key='INPUT')]
         ]
 
         self.window = sg.Window('作成メニュー').Layout(layout_add)
