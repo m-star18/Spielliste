@@ -9,6 +9,7 @@ from const.app import (
     HARD_DATA_NUMBER,
     ONE_COLUMN_LENGTH,
     TITLE,
+    THEME,
 )
 
 
@@ -41,6 +42,7 @@ class MainMenu:
         self.date_birth = sorted(list(set(date_birth))) + ['全て']
         self.company = sorted(list(set(company))) + ['全て']
         self.hard = sorted(list(self.HARD_NAME.keys())) + ['全て']
+        sg.theme(THEME)
 
     def show(self, input_text):
         previous_page = []
