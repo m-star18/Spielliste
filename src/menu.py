@@ -85,7 +85,7 @@ class MainMenu:
                                             first=True),
                           key=game.id,
                           ),
-                 sg.Text(size=SPACE_SIZE),
+                 sg.Button("Play", size=SPACE_SIZE, font=FONT_SIZE, button_color=button_color, key=f'Play{game.id}'),
                  sg.Button(game.name, size=NAME_SIZE, font=FONT_SIZE, button_color=button_color, key=game.id),
                  sg.Text(game.genre, size=DEFAULT_SIZE, font=FONT_SIZE),
                  sg.Text(game.date_birth, size=DEFAULT_SIZE, font=FONT_SIZE),
