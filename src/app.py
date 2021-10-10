@@ -163,6 +163,10 @@ class App:
                         # Keep the program closed for a safe screen transition.
                         return
 
+            # Play game...
+            elif 'Play' in event and event[4:] == game.id:
+                game.run_data(self.window)
+
         if event == '新規':
             new_game_data = GameData(edit_data[0], edit_data[1:])
             key = new_game_data.update_data(self.get_genre_data(), self.get_company_data())
