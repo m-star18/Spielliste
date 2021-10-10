@@ -11,6 +11,7 @@ When you write game information to a file, it is displayed.
 * Python 3.7.5
 * Pillow 8.3.2
 * PySimpleGUI 4.39.1
+* python-dotenv 0.18.0
 * Saves 0.1
  
 ## Installation
@@ -24,7 +25,8 @@ pip install -r requirements.txt
 ```bash
 git clone https://github.com/m-star18/Spielliste
 cd Spielliste
-python main.py
+cp .env.sample .env  # size
+python src/main.py
 ```
 
 ## License
