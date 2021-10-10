@@ -78,9 +78,9 @@ class GameData:
 
     def run_data(self, window):
         if self.site == 'site':
-            window['site'].update('エラー: romファイルが指定されていません')
+            window['INPUT'].update('エラー: romファイルが指定されていません')
         elif self.exec_site == 'exec':
-            window['site'].update('エラー: 実行ファイルが指定されていません')
+            window['INPUT'].update('エラー: 実行ファイルが指定されていません')
 
         else:
             subprocess.Popen([rf"{self.exec_site}", rf"{self.site}"], shell=True)
@@ -114,7 +114,7 @@ class GameData:
             [sg.CloseButton('戻る', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              sg.Button(button_text='Play', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE),
              ],
-            [sg.Text('', size=DETAIL_SITE_SIZE, font=FONT_SIZE, key='site'),
+            [sg.Text('', size=DETAIL_SITE_SIZE, font=FONT_SIZE, key='INPUT'),
              ],
         ]
 
