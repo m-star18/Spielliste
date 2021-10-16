@@ -17,15 +17,14 @@ When you write game information to a file, it is displayed.
 ## Installation
  
 ```bash
+git clone https://github.com/m-star18/Spielliste
 pip install -r requirements.txt
+cp .env.sample .env  # size
 ```
  
 ## Usage
  
 ```bash
-git clone https://github.com/m-star18/Spielliste
-cd Spielliste
-cp .env.sample .env  # size
 python src/main.py
 ```
 
