@@ -15,6 +15,7 @@ from const.app import (
     SITE_DATA_NUMBER,
     EXEC_DATA_NUMBER,
     HARD_DATA_NUMBER,
+    PRICE_DATA_NUMBER,
 )
 from const.settings import (
     DETAIL_GENRE_SIZE,
@@ -49,6 +50,12 @@ class GameData:
         self.site = game_list[6]
         self.exec_site = game_list[7]
         self.hard = game_list[8]
+
+        # ~v1.3.0
+        if len(game_list) <= PRICE_DATA_NUMBER:
+            self.price = '0'
+        else:
+            self.price = game_list[9]
 
         if self.id == '':
             self.id = str(uuid.uuid4())
@@ -110,6 +117,9 @@ class GameData:
              ],
             [sg.Text('最高得点', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Text(self.point, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
+             ],
+            [sg.Text('価格', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(self.price, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
             [sg.CloseButton('戻る', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              sg.Button(button_text='Play', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE),
@@ -179,6 +189,9 @@ class GameData:
             [sg.Text('最高得点', size=MENU_GENRE_SIZE, font=FONT_SIZE),
              sg.Input(default_text=self.point, size=MENU_TEXT_INPUT_SIZE, font=FONT_SIZE),
              ],
+            [sg.Text('価格', size=MENU_GENRE_SIZE, font=FONT_SIZE),
+             sg.Input(default_text=self.price, size=MENU_TEXT_INPUT_SIZE, font=FONT_SIZE, key=PRICE_DATA_NUMBER),
+             ],
             [sg.FileBrowse(button_text='画像を選択してください', size=MENU_BROWSE_SIZE, font=FONT_SIZE,
                            key=IMAGE_DATA_NUMBER, file_types=(('Image Files', '*.png'),),
                            button_color=self.image_button_color),
@@ -229,6 +242,11 @@ class GameData:
 
             if new_game_data[EXEC_DATA_NUMBER] == '':
                 new_game_data[EXEC_DATA_NUMBER] = self.exec_site
+
+            # dict sort
+            sort_new_game_data = sorted(new_game_data.items(), key=lambda x: x[0])
+            new_game_data.clear()
+            new_game_data.update(sort_new_game_data)
 
             # When hardware is selected
             if event != '保存' and event != 'edit':
