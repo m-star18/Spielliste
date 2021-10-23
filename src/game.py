@@ -94,6 +94,8 @@ class GameData:
             exit()
 
     def details_menu(self):
+        price = f'¥{int(self.price):,d}'
+
         layout_details = [
             [sg.Image(data=get_img_data(self.image_site, first=True)),
              ],
@@ -112,14 +114,14 @@ class GameData:
             [sg.Text('発売日', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Text(f'{self.date_birth}', size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
+            [sg.Text('価格', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
+             sg.Text(price, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
+             ],
             [sg.Text('会社名', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Text(self.company, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
             [sg.Text('最高得点', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
              sg.Text(self.point, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
-             ],
-            [sg.Text('価格', size=DETAIL_GENRE_SIZE, font=FONT_SIZE),
-             sg.Text(self.price, size=DETAIL_TEXT_SIZE, font=FONT_SIZE),
              ],
             [sg.CloseButton('戻る', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE, key='Exit'),
              sg.Button(button_text='Play', size=DETAIL_BUTTON_SIZE, font=FONT_SIZE),
