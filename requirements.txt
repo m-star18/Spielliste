@@ -1,4 +1,4 @@
 saves==0.1
 PySimpleGUI==4.39.1
-Pillow==10.0.1
+Pillow==10.2.0
 python-dotenv==0.18.0
